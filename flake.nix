@@ -2,41 +2,49 @@
   description = "JavaCafe's NixOS configuration";
 
   inputs = {
+    # Flake inputs
     discocss.url = "github:mlvzk/discocss/flake";
+    emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
-    nur.url = "github:nix-community/NUR";
+    naersk.url = "github:nix-community/naersk";
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
+    nix-matlab.url = "gitlab:doronbehar/nix-matlab";
+    nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
+    nur.url = "github:nix-community/NUR";
 
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-
+    # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
-    unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-
-    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland?rev=3716a3aea917103d20330c13cd40b956f8e51078";
-    nixvim.url = "github:pta2002/nixvim";
-
-    eww.url = "github:elkowar/eww";
-
-    emacs.url = "github:nix-community/emacs-overlay";
+    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Non Flakes
-    phocus = { url = "github:JavaCafe01/gtk"; flake = false; };
-    addy-bitmap-fonts = { url = "github:addy-dclxvi/bitmap-font-collections"; flake = false; };
+    luaFormatter = {
+      type = "git";
+      url = "https://github.com/Koihik/LuaFormatter.git";
+      submodules = true;
+      flake = false;
+    };
+
+    fzf-tab = { url = "github:Aloxaf/fzf-tab"; flake = false; };
     zsh-completions = { url = "github:zsh-users/zsh-completions"; flake = false; };
     zsh-syntax-highlighting = { url = "github:zsh-users/zsh-syntax-highlighting"; flake = false; };
-    fzf-tab = { url = "github:Aloxaf/fzf-tab"; flake = false; };
-    teal = { url = "github:teal-language/tl"; flake = false; };
-    unclutter-xfixes-nowrep = { url = "github:nowrep/unclutter-xfixes"; flake = false; };
-    themer-lua-nvim = { url = "github:JavaCafe01/themer.lua/dev"; flake = false; };
-    galaxyline-nvim = { url = "github:NTBBloodbath/galaxyline.nvim"; flake = false; };
-    sworkstyle = { url = "github:Lyr-7D1h/swayest_workstyle"; flake = false; };
 
+    # Default branch
     nixpkgs.follows = "unstable";
+
+    discocss.inputs.nixpkgs.follows = "nixpkgs";
+    emacs.inputs.nixpkgs.follows = "nixpkgs";
+    home.inputs.nixpkgs.follows = "nixpkgs";
+    naersk.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
+    nix-matlab.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    { self, home, nixpkgs, discocss, nixpkgs-f2k, nixpkgs-wayland, nixvim, ... }@inputs:
+    { self, home, nixpkgs, discocss, naersk, nixpkgs-f2k, ... }@inputs:
       with nixpkgs.lib;
       let
         config = {
@@ -58,48 +66,24 @@
               in
               {
                 # Packages provided by flake inputs
-                eww-way = eww.packages.${system}.eww-wayland;
                 discocss = discocss.defaultPackage.${system};
-                neovim-nightly = neovim.packages.${system}.neovim;
-                nixvim = nixvim.defaultPackage.${system};
+                naersk-lib = naersk.lib."${system}";
+                neovim-nightly = neovim.packages."${system}".neovim;
               } // (with nixpkgs-f2k.packages.${system}; {
                 # Overlays with f2k's repo
                 awesome = awesome-git;
                 picom = picom-git;
-                river = river-git;
-                kile-wl = kile-wl-git;
-              }) // (with nixpkgs-wayland.packages.${system}; {
-                # Wayland Stuff
-                # foot = foot;
-                mako = mako;
-                slurp = slurp;
-                swaybg = swaybg;
-                swayidle = swayidle;
-                swaylock = swaylock;
-                sway-git = sway-unwrapped;
-                waybar = waybar;
-                wayfire = wayfire;
-                wdisplays = wdisplays;
-                wf-recorder = wf-recorder;
-                wlroots = wlroots;
-                wl-clipboard = wl-clipboard;
-                wtype = wtype;
-                xdg-desktop-portal-wlr = xdg-desktop-portal-wlr;
               }) // {
                 # Non Flakes
-                phocus-src = phocus;
-                addy-bitmap-fonts-src = addy-bitmap-fonts;
+                fzf-tab-src = fzf-tab;
+                luaFormatter-src = luaFormatter;
                 zsh-completions-src = zsh-completions;
                 zsh-syntax-highlighting-src = zsh-syntax-highlighting;
-                fzf-tab-src = fzf-tab;
-                teal-src = teal;
-                unclutter-xfixes-nowrep-src = unclutter-xfixes-nowrep;
-                themer-lua-nvim-src = themer-lua-nvim;
-                galaxyline-nvim-src = galaxyline-nvim;
-                sworkstyle-src = sworkstyle;
 
                 /* Nixpkgs branches
+
                   One can access these branches like so:
+
                   `pkgs.stable.mpd'
                   `pkgs.master.linuxPackages_xanmod'
                 */
@@ -107,20 +91,37 @@
                 unstable = import unstable { inherit config system; };
                 stable = import stable { inherit config system; };
               })
-            neovim-nightly-overlay.overlay
-            nur.overlay
-            nixpkgs-f2k.overlay
-            nixpkgs-wayland.overlay
             emacs.overlay
+            nur.overlay
+            neovim-nightly.overlay
+            nix-matlab.overlay
+            nixpkgs-f2k.overlay
           ]
           # Overlays from ./overlays directory
           ++ (importNixFiles ./overlays);
       in
       {
-        nixosConfigurations.thonkpad = import ./thonkpad {
-          inherit config home inputs nixpkgs overlays discocss nixvim;
+        nixosConfigurations = {
+          thonkpad = import ./hosts/thonkpad {
+            inherit config nixpkgs overlays discocss inputs;
+          };
+
+          nixbox = import ./hosts/nixbox {
+            inherit config nixpkgs nixos-wsl overlays inputs;
+          };
+        };
+
+        homeConfigurations = {
+          javacafe01 = import ./users/javacafe01 {
+            inherit config nixpkgs home discocss overlays;
+          };
+
+          meems = import ./users/meems {
+            inherit config nixpkgs home overlays;
+          };
         };
 
         thonkpad = self.nixosConfigurations.thonkpad.config.system.build.toplevel;
+        nixbox = self.nixosConfigurations.nixbox.config.system.build.toplevel;
       };
 }

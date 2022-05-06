@@ -35,3 +35,4 @@ rec {
   inactiveBorderColor = muted;
   highlightColor = primary;
 }
+
