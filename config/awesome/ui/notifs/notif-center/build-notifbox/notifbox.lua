@@ -3,7 +3,7 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local helpers = require("helpers")
 
-local button = require("ui.widgets.button")
+local button = require("ui.widgets.notif-button")
 
 local notifbox = {}
 

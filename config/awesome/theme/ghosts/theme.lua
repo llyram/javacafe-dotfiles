@@ -18,6 +18,8 @@ local theme = dofile(themes_path .. "default/theme.lua")
 theme.wallpaper = gfs.get_configuration_dir() .. "images/bg.png"
 theme.wallpaper_blur = gfs.get_configuration_dir() .. "images/bg_blur.png"
 
+theme.icon_theme = "Papirus-Dark"
+
 -- Titlebar icon path
 --
 local icon_path = gfs.get_configuration_dir() .. "icons/"
@@ -65,11 +67,11 @@ theme.xcolor15 = xrdb.color15 or "#eaeaea"
 
 -- Fonts
 --
-theme.font_name = "Sarasa UI K "
+theme.font_name = "BlexMono Nerd Font Mono "
 theme.font = theme.font_name .. "8"
 theme.icon_font_name = "FiraCode Nerd Font Mono "
 theme.icon_font = theme.icon_font_name .. "18"
-theme.font_taglist = theme.icon_font_name .. "13"
+theme.font_taglist = theme.icon_font_name .. "8"
 
 -- Background Colors
 --
@@ -90,7 +92,7 @@ theme.button_close = theme.xcolor1
 
 -- Borders
 --
-theme.border_width = dpi(2)
+theme.border_width = dpi(0)
 theme.oof_border_width = dpi(0)
 theme.border_normal = theme.darker_bg
 theme.border_focus = theme.darker_bg
@@ -108,15 +110,15 @@ theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
                                   taglist_square_size, theme.fg_normal)
 theme.taglist_font = theme.font_taglist
-theme.taglist_bg = theme.wibar_bg
+theme.taglist_bg = theme.lighter_bg
 theme.taglist_bg_focus = theme.lighter_bg
-theme.taglist_fg_focus = theme.xcolor3
-theme.taglist_bg_urgent = theme.wibar_bg
-theme.taglist_fg_urgent = theme.xcolor6
+theme.taglist_fg_focus = theme.xcolor4
+theme.taglist_bg_urgent = theme.lighter_bg
+theme.taglist_fg_urgent = theme.xcolor1
 theme.taglist_bg_occupied = theme.wibar_bg
-theme.taglist_fg_occupied = theme.xcolor6
-theme.taglist_bg_empty = theme.wibar_bg
-theme.taglist_fg_empty = theme.xcolor8
+theme.taglist_fg_occupied = theme.xforeground
+theme.taglist_bg_empty = theme.lighter_bg
+theme.taglist_fg_empty = theme.xforeground
 theme.taglist_bg_volatile = transparent
 theme.taglist_fg_volatile = theme.xcolor11
 theme.taglist_disable_icon = true
@@ -149,8 +151,8 @@ theme.tasklist_align = "center"
 theme.titlebar_size = dpi(40)
 theme.titlebar_bg_focus = theme.darker_bg
 theme.titlebar_bg_normal = theme.darker_bg
-theme.titlebar_fg_normal = theme.xcolor15 .. "80"
-theme.titlebar_fg_focus = theme.xcolor15
+theme.titlebar_fg_normal = theme.xforeground .. "80"
+theme.titlebar_fg_focus = theme.xforeground
 
 -- Edge snap
 --
@@ -213,21 +215,21 @@ theme.exit_screen_bg = theme.xcolor0 .. "80"
 
 -- Wibar
 --
-theme.wibar_height = (dpi(42) + theme.widget_border_width) * 0
-theme.wibar_width = dpi(42) + theme.widget_border_width
+theme.wibar_height = dpi(42)
+theme.wibar_width = dpi(46)
 theme.panel_width = dpi(400)
 theme.wibar_margin = dpi(15)
 theme.wibar_spacing = dpi(15)
 theme.wibar_bg = theme.darker_bg
 theme.wibar_bg_secondary = theme.xbackground
-theme.wibar_position = "left"
--- theme.xcolor0 .. 55
+theme.wibar_position = "top"
 
 -- Systray
 --
 theme.systray_icon_spacing = dpi(15)
 theme.bg_systray = theme.darker_bg
 theme.systray_icon_size = dpi(15)
+theme.systray_max_rows = 2
 
 -- Collision
 --
@@ -269,6 +271,7 @@ theme.collision_screen_fg_focus = theme.xcolor4
 theme.mstab_bar_height = dpi(60)
 theme.mstab_bar_padding = dpi(0)
 theme.mstab_border_radius = dpi(6)
+theme.mstab_bar_disable = true
 theme.tabbar_disable = true
 theme.tabbar_style = "modern"
 theme.tabbar_bg_focus = theme.xbackground
@@ -277,7 +280,7 @@ theme.tabbar_fg_focus = theme.xcolor0
 theme.tabbar_fg_normal = theme.xcolor15
 theme.tabbar_position = "bottom"
 theme.tabbar_AA_radius = 0
-theme.tabbar_size = 40
+theme.tabbar_size = 0
 theme.mstab_bar_ontop = true
 
 theme.notification_spacing = 19
@@ -306,9 +309,9 @@ theme.machi_editor_active_opacity = 0.25
 --
 theme.tag_preview_widget_border_radius = theme.border_radius
 theme.tag_preview_client_border_radius = theme.border_radius * 0.75
-theme.tag_preview_client_opacity = 0.5
+theme.tag_preview_client_opacity = 0.6
 theme.tag_preview_client_bg = theme.xcolor0
-theme.tag_preview_client_border_color = theme.xcolor8
+theme.tag_preview_client_border_color = theme.darker_bg
 theme.tag_preview_client_border_width = theme.widget_border_width
 theme.tag_preview_widget_bg = theme.xbackground
 theme.tag_preview_widget_border_color = theme.widget_border_color
@@ -324,5 +327,13 @@ theme.task_preview_widget_border_width = theme.widget_border_width * 0
 theme.task_preview_widget_margin = dpi(15)
 
 theme.fade_duration = 250
+
+-- Control Center
+--
+theme.control_center_widget_bg = theme.xbackground
+theme.control_center_button_bg = theme.lighter_bg
+theme.control_center_widget_radius = theme.border_radius
+theme.accent = theme.xcolor8
+theme.hover_effect = theme.xcolor0
 
 return theme

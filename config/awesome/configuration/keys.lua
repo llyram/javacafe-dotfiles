@@ -7,11 +7,27 @@ local helpers = require("helpers")
 local machi = require("module.layout-machi")
 local bling = require("module.bling")
 
+local beautiful = require("beautiful")
+local naughty = require("naughty")
+
+local screenshot = require("module.screenshot")
+screenshot.init('/home/javacafe01/Pictures/screenshots', 'Awesome-shot-',
+                beautiful.xcolor4)
+
 -- Mouse Bindings
 awful.mouse.append_global_mousebindings({
     awful.button({}, 4, awful.tag.viewprev),
     awful.button({}, 5, awful.tag.viewnext)
 })
+
+local shot_notify = function(fpath)
+    naughty.notification {
+        title = "System",
+        text = "Screenshot saved",
+        app_name = "AwesomeWM",
+        image = fpath
+    }
+end
 
 -- Client and Tabs Bindings
 awful.keyboard.append_global_keybindings({
@@ -77,21 +93,21 @@ awful.keyboard.append_global_keybindings({
               {description = "playerctl next", group = "awesome"}),
 
     -- Screen Shots/Vids
-    awful.key({}, "Print", function() require("ui.pop.shoot"):show() end,
-              {description = "take a screenshot", group = "awesome"}),
-    awful.key({modkey}, "Print",
-              function() awful.spawn.with_shell("shoot selnp") end, {
-        description = "take a selection with no pads",
-        group = "awesome"
-    }), awful.key({modkey, "Shift"}, "Print",
-                  function() awful.spawn.with_shell("shoot sel") end, {
-        description = "take a selection with pads",
-        group = "awesome"
-    }), -- Brightness
-    awful.key({modkey}, "XF86AudioRaiseVolume",
+    awful.key({}, "Print", function()
+        awful.spawn("flameshot launcher")
+    end, {description = "take a clipped screenshot", group = "awesome"}),
+    awful.key({modkey}, "Print", function()
+        local fpath = screenshot.client()
+        shot_notify(fpath)
+    end, {description = "take a client screenshot", group = "awesome"}),
+    awful.key({modkey, "Shift"}, "Print", function()
+        local fpath = screenshot.screen()
+        shot_notify(fpath)
+    end, {description = "take a screen screenshot", group = "awesome"}), -- Brightness
+    awful.key({}, "XF86MonBrightnessUp",
               function() awful.spawn("brightnessctl s +5%") end,
               {description = "increase brightness", group = "awesome"}),
-    awful.key({modkey}, "XF86AudioLowerVolume",
+    awful.key({}, "XF86MonBrightnessDown",
               function() awful.spawn("brightnessctl s 5%-") end,
               {description = "decrease brightness", group = "awesome"}),
 
@@ -137,12 +153,8 @@ awful.keyboard.append_global_keybindings({
               {description = "focus the previous screen", group = "screen"}),
     awful.key({modkey}, "t", function() awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({modkey}, "s",
-              function() awesome.emit_signal("scratch::music") end,
-              {description = "open music", group = "scratchpad"}),
     awful.key({modkey}, "z", function() require("ui.pop.peek").run() end,
               {description = "peek", group = "client"}),
-
     awful.key({modkey}, "f", function() awful.spawn(filemanager) end,
               {description = "open file browser", group = "launcher"}),
     awful.key({modkey}, "v",

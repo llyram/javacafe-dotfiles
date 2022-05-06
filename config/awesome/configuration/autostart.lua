@@ -6,7 +6,7 @@ local awful = require("awful")
 local autostart_apps = {
     "xset -b", -- Disable bell 
     "blueman-applet", -- Bluetooth Systray Applet
-    "unclutter --touch" -- Disable cursor when using touch screen
+    -- "unclutter --touch" -- Disable cursor when using touch screen
 }
 
 for app = 1, #autostart_apps do

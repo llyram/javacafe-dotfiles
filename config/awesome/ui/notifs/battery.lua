@@ -13,6 +13,7 @@ awesome.connect_signal("signal::battery", function(percentage, state)
         naughty.notification({
             title = "Battery Status",
             text = "Running low at " .. value .. "%",
+            app_name = "AwesomeWM",
             image = gfs.get_configuration_dir() .. "icons/ghosts/battery.png"
         })
         display_low = false
@@ -23,6 +24,7 @@ awesome.connect_signal("signal::battery", function(percentage, state)
         naughty.notification({
             title = "Battery Status",
             text = "Fully charged!",
+            app_name = "AwesomeWM",
             image = gfs.get_configuration_dir() .. "icons/ghosts/battery.png"
 
         })
@@ -34,6 +36,7 @@ awesome.connect_signal("signal::battery", function(percentage, state)
         naughty.notification({
             title = "Battery Status",
             text = "Charging",
+            app_name = "AwesomeWM",
             image = gfs.get_configuration_dir() ..
                 "icons/ghosts/battery_charging.png"
         })

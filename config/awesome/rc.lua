@@ -57,7 +57,7 @@ local awesomemenu = {
     {"Restart", awesome.restart}, {"Quit", function() awesome.quit() end}
 }
 
-local appmenu = {{"Wezterm", terminal}, {"Emacs", editor}}
+local appmenu = {{"Terminal", "urxvt"}, {"Emacs", editor}}
 
 local mymainmenu = awful.menu({
     items = {
@@ -70,12 +70,12 @@ awful.mouse.append_global_mousebindings({
 })
 
 -- Garbage Collector Settings
-collectgarbage("setpause", 110)
-collectgarbage("setstepmul", 1000)
+-- collectgarbage("setpause", 110)
+-- collectgarbage("setstepmul", 1000)
 
 -- Use the following for a less intense, more battery saving GC
--- collectgarbage("setpause", 160)
--- collectgarbage("setstepmul", 400)
+collectgarbage("setpause", 160)
+collectgarbage("setstepmul", 400)
 
 --[[
 --

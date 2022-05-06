@@ -6,15 +6,33 @@ local beautiful = require("beautiful")
 require("configuration.autostart")
 
 -- Default Applications
-terminal = "alacritty"
+terminal = "wezterm"
 editor = "neovide"
 editor_cmd = editor
 browser = "firefox"
 filemanager = "nautilus"
-discord = "discord"
+discord = "Discord"
 launcher = "rofi -show drun"
-music = terminal .. " --class music -e ncspot"
+music = terminal .. " start ncmpcpp --class music"
 emoji_launcher = "rofi -show emoji"
+
+--[[
+require("module.nice") {
+  button_size = 15,
+  close_color = beautiful.xcolor1,
+  minimize_color = beautiful.xcolor2,
+  maximize_color = beautiful.xcolor3,
+  titlebar_height = 40,
+  titlebar_radius = 12,
+  titlebar_font = beautiful.font_name .. "9",
+  no_titlebar_maximized = true,
+  titlebar_items = {
+    left = {},
+    middle = "title",
+    right = {"close", "minimize", "maximize"},
+  }
+}
+]]
 
 -- Global Vars
 screen_width = awful.screen.focused().geometry.width
@@ -34,16 +52,34 @@ ctrl = "Control"
 screen.connect_signal("request::wallpaper", function(s)
     awful.wallpaper {
         screen = s,
-        bg = beautiful.lighter_bg
-        --[[
-	widget = {
-         horizontal_fit_policy = "fit",
-         vertical_fit_policy   = "fit",
-         image                 = beautiful.wallpaper,
-         widget                = wibox.widget.imagebox,
-        }]]--
+        -- bg = beautiful.lighter_bg
+        widget = {
+            horizontal_fit_policy = "fit",
+            vertical_fit_policy = "fit",
+            image = beautiful.wallpaper,
+            widget = wibox.widget.imagebox
+        }
     }
 end)
+
+--[[
+local wall = require("module.awesome-wallpaper")
+
+local g = require('gears').timer {
+    timeout = 0.01,
+    call_now = false,
+    autostart = true
+}
+
+local size = 2
+local factor = 1
+g:connect_signal("timeout", function()
+    if size >= 30 or size <= 1 then factor = factor * -1 end
+    wall = wall {font_size = size}
+    wall:draw_wallpaper()
+    size = size + (1 * factor)
+end)
+--]]
 
 -- Get Bling Config
 require("configuration.bling")

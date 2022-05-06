@@ -32,13 +32,12 @@ local volume_adjust = awful.popup({
     widget = wibox.container.background,
     bg = "#00000000",
     placement = function(c)
-        awful.placement
-            .right(c, {margins = {right = beautiful.useless_gap * 2}})
+        awful.placement.right(c, {margins = {right = 10}})
     end
 })
 
 local volume_bar = wibox.widget {
-    bar_shape = gears.shape.rectangle,
+    bar_shape = gears.shape.rounded_rect,
     shape = gears.shape.rounded_rect,
     background_color = beautiful.lighter_bg,
     color = active_color_1,
@@ -65,6 +64,8 @@ volume_ratio:adjust_ratio(2, 0.72, 0.28, 0)
 volume_adjust.widget = wibox.widget {
     volume_ratio,
     shape = helpers.rrect(beautiful.border_radius),
+    border_width = beautiful.widget_border_width * 0,
+    border_color = beautiful.widget_border_color,
     bg = beautiful.xbackground,
     widget = wibox.container.background
 }
@@ -82,6 +83,7 @@ local hide_volume_adjust = gears.timer {
 
 awesome.connect_signal("signal::volume", function(vol, muted)
     volume_bar.value = vol
+
     if muted or vol == 0 then
         volume_icon.markup = "<span foreground='" .. beautiful.xcolor4 ..
                                  "'><b>ﳌ</b></span>"

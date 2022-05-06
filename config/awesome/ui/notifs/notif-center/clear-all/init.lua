@@ -3,7 +3,7 @@ local wibox = require('wibox')
 local gears = require('gears')
 local beautiful = require('beautiful')
 
-local button = require("ui.widgets.button")
+local button = require("ui.widgets.notif-button")
 local dpi = require('beautiful').xresources.apply_dpi
 
 local config_dir = gears.filesystem.get_configuration_dir()

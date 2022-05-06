@@ -36,34 +36,7 @@ local function create_title_button(c, color_focus, color_unfocus, shp)
     return tb
 end
 
-local function create_title_bg(c, w, color_focus, color_unfocus, shp)
-    local tb = wibox.widget {
-        {w, margins = dpi(6), widget = wibox.container.margin},
-        bg = color_focus,
-        shape = shp,
-        widget = wibox.container.background
-    }
-
-    local function update()
-        if client.focus == c then
-            tb.bg = color_focus
-        else
-            tb.bg = color_unfocus
-        end
-    end
-    update()
-
-    c:connect_signal("focus", update)
-    c:connect_signal("unfocus", update)
-
-    tb:connect_signal("mouse::enter", function() tb.bg = color_focus .. 55 end)
-    tb:connect_signal("mouse::leave", function() tb.bg = color_focus end)
-
-    tb.visible = true
-    return {tb, margins = dpi(7), widget = wibox.container.margin}
-end
-
-local get_titlebar = function(c, height)
+local get_titlebar = function(c, height, tb_bg)
 
     local tabbed_misc = bling.widget.tabbed_misc
 
@@ -92,23 +65,35 @@ local get_titlebar = function(c, height)
                                       beautiful.xcolor0 .. "55", ci(12, 12))
     close:connect_signal("button::press", function() c:kill() end)
 
-    awful.titlebar(c, {size = height, position = "top"}):setup{
-        --[[{
-            helpers.horizontal_pad(10),
-            tabbed_misc.titlebar_indicator(c, {
-                icon_size = dpi(18),
-                icon_margin = dpi(6),
-                layout_spacing = dpi(6),
-                bg_color_focus = beautiful.lighter_bg,
-                bg_color = beautiful.darker_bg,
-                icon_shape = gears.shape.circle
-            }),
+    awful.titlebar(c, {
+        size = height,
+        position = "top",
+        bg_normal = tb_bg,
+        bg_focus = tb_bg
+    }):setup{
+        {
+            helpers.horizontal_pad(15),
+            {align = 'center', widget = awful.titlebar.widget.titlewidget(c)},
             layout = wibox.layout.fixed.horizontal
-        },--]]
-        create_title_bg(c, awful.titlebar.widget.iconwidget(c),
-                        beautiful.xcolor0, beautiful.xbackground,
-                        helpers.rrect(beautiful.border_radius)),
-        awful.titlebar.widget.titlewidget(c),
+        },
+        {
+            {
+                tabbed_misc.titlebar_indicator(c, {
+                    icon_size = dpi(15),
+                    icon_margin = dpi(6),
+                    layout_spacing = dpi(0),
+                    bg_color_focus = beautiful.xcolor0,
+                    bg_color = beautiful.lighter_bg,
+                    icon_shape = gears.shape.rectangle
+                }),
+                bg = beautiful.xcolor1,
+                shape = helpers.rrect(beautiful.border_radius),
+                widget = wibox.container.background
+            },
+            top = 7,
+            bottom = 7,
+            widget = wibox.container.margin
+        },
         {
             {
                 close,
@@ -128,7 +113,9 @@ end
 
 local top = function(c)
     local titlebar_height = beautiful.titlebar_size
-    get_titlebar(c, titlebar_height)
+    local tb_bg = beautiful.darker_bg
+    if c.class:find("gnome") then tb_bg = beautiful.xcolor0 end
+    get_titlebar(c, titlebar_height, tb_bg)
 end
 
 return top

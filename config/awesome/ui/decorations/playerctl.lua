@@ -7,11 +7,12 @@ local xresources = require("beautiful.xresources")
 local ruled = require("ruled")
 local dpi = xresources.apply_dpi
 
+local playerctl = require("module.bling").signal.playerctl.lib()
+
 local art = wibox.widget {
     image = gears.filesystem.get_configuration_dir() .. "images/no_music.png",
     resize = true,
     forced_height = dpi(250),
-    forced_width = dpi(250),
     widget = wibox.widget.imagebox
 }
 
@@ -34,12 +35,12 @@ local create_button = function(symbol, color, command, playpause)
         widget = wibox.container.background
     }
 
-    awesome.connect_signal("bling::playerctl::status", function(playing)
+    playerctl:connect_signal("playback_status", function(_, playing, _)
         if playpause then
             if playing then
-                icon.markup = helpers.colorize_text("", color)
+                icon.markup = helpers.colorize_text("", color)
             else
-                icon.markup = helpers.colorize_text("", color)
+                icon.markup = helpers.colorize_text("", color)
             end
         end
     end)
@@ -58,60 +59,53 @@ local create_button = function(symbol, color, command, playpause)
     return button
 end
 
--- Get Song Info 
-awesome.connect_signal("bling::playerctl::title_artist_album",
-                       function(title, artist, art_path)
+-- Get Song Info
+playerctl:connect_signal("metadata", function(_, _, _, art_path, _, _, _)
     -- Set art widget
     art:set_image(gears.surface.load_uncached(art_path))
 end)
 
-local play_command =
-    function() awful.spawn.with_shell("playerctl play-pause") end
-local prev_command = function() awful.spawn.with_shell("playerctl previous") end
-local next_command = function() awful.spawn.with_shell("playerctl next") end
+local play_command = function() playerctl:play_pause() end
+local prev_command = function() playerctl:previous() end
+local next_command = function() playerctl:next() end
 
-local playerctl_play_symbol = create_button("", beautiful.xcolor4,
+local playerctl_play_symbol = create_button("", beautiful.xcolor4,
                                             play_command, true)
 
-local playerctl_prev_symbol = create_button("", beautiful.xcolor4,
+local playerctl_prev_symbol = create_button("玲", beautiful.xcolor4,
                                             prev_command, false)
-local playerctl_next_symbol = create_button("", beautiful.xcolor4,
+local playerctl_next_symbol = create_button("怜", beautiful.xcolor4,
                                             next_command, false)
 
-ncmp_tb = function(c)
-    awful.titlebar(c,
-                   {position = "left", size = 400, bg = beautiful.xbackground}):setup{
+local music_tb = function(c)
 
-        {
+    awful.titlebar(c,
+                   {position = "bottom", size = 60, bg = beautiful.xbackground}):setup{
             {
-                {
-                    art,
-                    bg = beautiful.xcolor0,
-                    shape = helpers.rrect(20),
-                    widget = wibox.container.background
-                },
-                top = dpi(40),
-                widget = wibox.container.margin
+
+                playerctl_prev_symbol,
+                playerctl_play_symbol,
+                playerctl_next_symbol,
+                spacing = dpi(10),
+                layout = wibox.layout.fixed.horizontal
             },
             halign = "center",
             widget = wibox.container.place
-        },
+        }
+
+    awful.titlebar(c,
+                   {position = "left", size = 300, bg = beautiful.xbackground}):setup{
         {
-            {
-                {
-                    playerctl_prev_symbol,
-                    playerctl_play_symbol,
-                    playerctl_next_symbol,
-                    spacing = dpi(40),
-                    layout = wibox.layout.fixed.horizontal
-                },
-                top = dpi(60),
-                widget = wibox.container.margin
-            },
-            halign = "center",
-            widget = wibox.container.place
+            art,
+            bg = beautiful.xcolor0,
+            shape = helpers.rrect(20),
+            forced_width = dpi(200),
+            forced_height = dpi(200),
+            widget = wibox.container.background
         },
-        layout = wibox.layout.fixed.vertical
+        halign = "center",
+        valign = "center",
+        widget = wibox.container.place
     }
 end
 
@@ -119,6 +113,6 @@ ruled.client.connect_signal("request::rules", function()
     ruled.client.append_rule {
         id = "music",
         rule = {instance = "music"},
-        callback = ncmp_tb
+        callback = music_tb
     }
 end)

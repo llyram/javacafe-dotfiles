@@ -27,7 +27,6 @@ local awesome_icon = wibox.widget {
 }
 
 awesome_icon:buttons(gears.table.join(awful.button({}, 1, function()
-    -- gears.surface(s.content):write_to_png("/home/javacafe01/oof.png")
     awesome.emit_signal("panel::open")
 end)))
 
@@ -38,7 +37,7 @@ end)
 awesome_icon:connect_signal("mouse::leave",
                             function() awesome_icon.bg = beautiful.wibar_bg end)
 
--- Battery Bar Widget ---------------------------------------------------------
+-- battery bar widget ---------------------------------------------------------
 
 local battery_icon = wibox.widget {
     font = beautiful.icon_font_name .. "12",
@@ -47,20 +46,30 @@ local battery_icon = wibox.widget {
     widget = wibox.widget.textbox
 }
 
-local battery_prog = wibox.widget {
+local battery_bar = wibox.widget {
     max_value = 100,
     min_value = 0,
-    value = 20,
-    forced_height = 3,
-    forced_width = 75,
-    color = beautiful.xcolor4,
+    value = 80,
+    color = beautiful.xcolor0,
     background_color = beautiful.lighter_bg,
-    shape = gears.shape.rounded_bar,
+    shape = helpers.rrect(beautiful.border_radius),
+    bar_shape = helpers.rrect(beautiful.border_radius),
     widget = wibox.widget.progressbar
 }
 
+local battery_widget = wibox.widget {
+    {
+        battery_bar,
+        direction = "east",
+        forced_height = 100,
+        widget = wibox.container.rotate
+    },
+    battery_icon,
+    layout = wibox.layout.stack
+}
+
 awesome.connect_signal("signal::battery", function(percentage, state)
-    local value = percentage
+    local value = percentage or 10
 
     local bat_icon = ""
 
@@ -87,9 +96,9 @@ awesome.connect_signal("signal::battery", function(percentage, state)
     end
 
     -- if charging
-    if state == 1 then bat_icon = "" end
+    if state == 1 then bat_icon = "" end
 
-    battery_prog.value = percentage
+    battery_bar.value = value
 
     battery_icon.markup = "<span foreground='" .. beautiful.xcolor12 .. "'>" ..
                               bat_icon .. "</span>"
@@ -104,26 +113,27 @@ local volume_icon = wibox.widget {
     widget = wibox.widget.textbox
 }
 
-local volume_prog = wibox.widget {
+local volume_widget = wibox.widget {
+    {volume_icon, right = dpi(1), widget = wibox.container.margin},
     max_value = 100,
     min_value = 0,
-    value = 20,
-    forced_height = 3,
-    forced_width = 75,
-    color = beautiful.xcolor2,
-    background_color = beautiful.lighter_bg,
-    shape = gears.shape.rounded_bar,
-    widget = wibox.widget.progressbar
+    value = 80,
+    thickness = 2,
+    start_angle = math.pi * 3 / 2,
+    rounded_edge = true,
+    bg = beautiful.lighter_bg,
+    colors = {beautiful.xcolor2},
+    widget = wibox.container.arcchart
 }
 
 awesome.connect_signal("signal::volume", function(vol, muted)
-    local value = vol or 0
+    local val = tonumber(vol) or 0
 
     local vol_icon = ""
 
-    if value >= 77 and value <= 100 then
+    if val >= 77 and val <= 100 then
         vol_icon = ""
-    elseif value >= 20 and value < 77 then
+    elseif val >= 20 and val < 77 then
         vol_icon = ""
     else
         vol_icon = ""
@@ -131,16 +141,57 @@ awesome.connect_signal("signal::volume", function(vol, muted)
 
     if muted then vol_icon = "婢" end
 
-    volume_prog.value = vol
+    volume_widget.value = val
 
     volume_icon.markup = "<span foreground='" .. beautiful.xcolor2 .. "'>" ..
                              vol_icon .. "</span>"
 end)
 
+-- Brightness Bar Widget ---------------------------------------------------------
+
+local bright_icon = wibox.widget {
+    font = beautiful.icon_font_name .. "14",
+    align = "center",
+    valign = "center",
+    widget = wibox.widget.textbox
+}
+
+local bright_widget = wibox.widget {
+    {bright_icon, right = dpi(1), widget = wibox.container.margin},
+    max_value = 100,
+    min_value = 0,
+    value = 80,
+    thickness = 2,
+    start_angle = math.pi * 3 / 2,
+    rounded_edge = true,
+    bg = beautiful.lighter_bg,
+    colors = {beautiful.xcolor5},
+    widget = wibox.container.arcchart
+}
+
+awesome.connect_signal("signal::brightness", function(percentage)
+    local val = tonumber(percentage) or 0
+
+    local bri_icon = ""
+
+    if val >= 77 and val <= 100 then
+        bri_icon = ""
+    elseif val >= 20 and val < 77 then
+        bri_icon = ""
+    else
+        bri_icon = ""
+    end
+
+    bright_widget.value = val
+
+    bright_icon.markup = "<span foreground='" .. beautiful.xcolor5 .. "'>" ..
+                             bri_icon .. "</span>"
+end)
+
 -- Clock Widget ----------------------------------------------------------------
 -- Stolen from No37
 
-local hourtextbox = wibox.widget.textclock("%H")
+local hourtextbox = wibox.widget.textclock("%I")
 hourtextbox.markup = helpers.colorize_text(hourtextbox.text, beautiful.xcolor5)
 hourtextbox.align = "center"
 hourtextbox.valign = "center"
@@ -155,13 +206,6 @@ hourtextbox:connect_signal("widget::redraw_needed", function()
 end)
 
 minutetextbox:connect_signal("widget::redraw_needed", function()
-    minutetextbox.markup = helpers.colorize_text(minutetextbox.text,
-                                                 beautiful.xforeground)
-end)
-
-awesome.connect_signal("chcolor", function()
-    hourtextbox.markup = helpers.colorize_text(hourtextbox.text,
-                                               beautiful.xcolor5)
     minutetextbox.markup = helpers.colorize_text(minutetextbox.text,
                                                  beautiful.xforeground)
 end)
@@ -187,13 +231,44 @@ datetooltip.text = os.date("%d.%m.%y") -- just don't stay up long enough for tha
 local mysystray = wibox.widget.systray()
 mysystray.base_size = beautiful.systray_icon_size
 
-local mysystray_container = {
-    mysystray,
-    bottom = dpi(7),
-    left = dpi(8),
-    right = dpi(8),
-    widget = wibox.container.margin
+local sys_button = wibox.widget {
+    forced_width = 10,
+    forced_height = 12,
+    bg = beautiful.xforeground,
+    shape = helpers.powerline(10, 12),
+    widget = wibox.container.background
 }
+
+local sys_popup = awful.popup {
+    widget = wibox.widget {
+        {mysystray, margins = 10, widget = wibox.container.margin},
+        forced_height = 65,
+        bg = beautiful.darker_bg,
+        widget = wibox.container.background
+    },
+    ontop = true,
+    visible = false,
+    placement = function(c)
+        awful.placement.bottom_left(c, {
+            margins = {left = beautiful.wibar_width + 10, bottom = 20}
+        })
+    end,
+    shape = gears.shape.rounded_rect
+}
+
+sys_button:buttons(gears.table.join(awful.button({}, 1, function()
+    if sys_popup.visible then
+        sys_popup.visible = false
+    else
+        sys_popup.visible = true
+    end
+end)))
+
+sys_button:connect_signal("mouse::enter",
+                          function() sys_button.bg = beautiful.xcolor8 end)
+
+sys_button:connect_signal("mouse::leave",
+                          function() sys_button.bg = beautiful.xforeground end)
 
 -- Tasklist Buttons -----------------------------------------------------------
 
@@ -225,9 +300,9 @@ local wrap_widget = function(w)
     return {
         w,
         top = dpi(5),
-        left = dpi(3),
+        left = dpi(5),
         bottom = dpi(5),
-        right = dpi(4),
+        right = dpi(5),
         widget = wibox.container.margin
     }
 end
@@ -272,26 +347,18 @@ screen.connect_signal("request::desktop_decoration", function(s)
         {
             {
                 {
-                    require("ui.notifs.notif-center"),
+                    require("ui.widgets.qs-panel"),
                     forced_height = dpi(875),
                     widget = wibox.container.constraint
                 },
-                wrap_widget2({
-                    volume_prog,
-                    direction = "south",
-                    widget = wibox.container.rotate
-                }),
-                helpers.vertical_pad(dpi(30)),
-                wrap_widget2({
-                    battery_prog,
-                    direction = "south",
-                    widget = wibox.container.rotate
-                }),
-                helpers.vertical_pad(dpi(30)),
-                wrap_widget2(require("ui.widgets.playerctl")),
-                layout = wibox.layout.fixed.vertical
+                nil,
+                nil,
+                layout = wibox.layout.align.vertical
             },
-            margins = dpi(10),
+            top = 10,
+            bottom = 30,
+            left = 10,
+            right = 10,
             widget = wibox.container.margin
         },
         bg = beautiful.xbackground,
@@ -348,42 +415,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
     client.connect_signal("request::unmanage", add_wibar)
 
     -- Create the taglist widget
-    s.mytaglist = require("ui.widgets.pacman_taglist")(s)
-
-    -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist {
-        screen = s,
-        filter = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons,
-        bg = beautiful.wibar_bg,
-        style = {
-            bg = beautiful.xcolor0,
-            shape = helpers.rrect(beautiful.border_radius)
-        },
-        layout = {spacing = dpi(10), layout = wibox.layout.fixed.vertical},
-        widget_template = {
-            {
-                awful.widget.clienticon,
-                margins = dpi(6),
-                layout = wibox.container.margin
-            },
-            id = "background_role",
-            widget = wibox.container.background,
-            create_callback = function(self, c, index, clients)
-                self:connect_signal('mouse::enter', function()
-                    self.bg_temp = self.bg
-                    self.bg = beautiful.xcolor0
-                    awesome.emit_signal("bling::task_preview::visibility", s,
-                                        true, c)
-                end)
-                self:connect_signal('mouse::leave', function()
-                    self.bg = self.bg_temp
-                    awesome.emit_signal("bling::task_preview::visibility", s,
-                                        false, c)
-                end)
-            end
-        }
-    }
+    s.mytaglist = require("ui.widgets.tagsklist")(s)
 
     -- Add widgets to the wibox
     s.mywibox.widget = wibox.widget {
@@ -392,56 +424,56 @@ screen.connect_signal("request::desktop_decoration", function(s)
             expand = "none",
             {
                 layout = wibox.layout.fixed.vertical,
-                helpers.horizontal_pad(4),
-                -- function to add padding
                 {
-                    {
-                        awesome_icon,
-                        margins = dpi(3),
-                        widget = wibox.container.margin
-                    },
-                    margins = 3,
+                    awesome_icon,
+                    top = dpi(10),
+                    right = dpi(6),
+                    left = dpi(6),
+                    bottom = dpi(6),
                     widget = wibox.container.margin
                 },
-                wrap_widget({
-                    s.mytasklist,
-                    left = dpi(5),
-                    right = dpi(5),
-                    widget = wibox.container.margin
-                }),
-                s.mypromptbox
-            },
-            {
                 wrap_widget({
                     s.mytaglist,
                     left = dpi(5),
                     right = dpi(5),
                     widget = wibox.container.margin
-                }),
-                widget = wibox.container.constraint
+                })
             },
+            {s.mypromptbox, widget = wibox.container.constraint},
             {
                 wrap_widget(clock),
-                wrap_widget(volume_icon),
-                wrap_widget(battery_icon),
-                wrap_widget(awful.widget.only_on_screen({
-                    {
-                        final_systray,
-                        direction = "west",
-                        widget = wibox.container.rotate
-                    },
-                    left = dpi(4),
+                wrap_widget({
+                    volume_widget,
+                    margins = 5,
                     widget = wibox.container.margin
-                }, screen[1])),
+                }),
+                wrap_widget({
+                    bright_widget,
+                    top = 0,
+                    left = 5,
+                    right = 5,
+                    bottom = 5,
+                    widget = wibox.container.margin
+                }),
+                wrap_widget({
+                    battery_widget,
+                    margins = 5,
+                    widget = wibox.container.margin
+                }),
+                wrap_widget(awful.widget.only_on_screen({
+                    sys_button,
+                    halign = "center",
+                    valign = "center",
+                    widget = wibox.container.place
+                }, s)),
                 wrap_widget({
                     s.mylayoutbox,
                     top = dpi(5),
-                    bottom = dpi(5),
+                    bottom = dpi(10),
                     right = dpi(8),
                     left = dpi(8),
                     widget = wibox.container.margin
                 }),
-                helpers.horizontal_pad(4),
                 layout = wibox.layout.fixed.vertical
             }
         },

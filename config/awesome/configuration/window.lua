@@ -5,6 +5,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local dpi = require("beautiful.xresources").apply_dpi
 local helpers = require("helpers")
+local menubar = require("menubar")
 
 -- Bling Module
 local bling = require("module.bling")
@@ -12,6 +13,9 @@ local bling = require("module.bling")
 -- Layout Machi
 local machi = require("module.layout-machi")
 beautiful.layout_machi = machi.get_icon()
+
+-- Icon Themer
+local icon_themer = require("module.icon_themer")
 
 -- This is to slave windows' positions in floating layout
 -- Not Mine
@@ -23,12 +27,7 @@ require("module.savefloats")
 -- https://github.com/larkery/awesome/blob/master/better-resize.lua
 require("module.better-resize")
 
-client.connect_signal("request::manage", function(c)
-    if not c.icon then
-        local i = gears.surface(gfs.get_configuration_dir() ..
-                                    "icons/ghosts/awesome.png")
-        c.icon = i._native
-    end
+client.connect_signal("request::manage", function(c, context)
 
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
@@ -39,16 +38,34 @@ client.connect_signal("request::manage", function(c)
         awful.placement.no_offscreen(c)
     end
 
-    -- Give ST and icon
+    --[[
+    -- Change icons to set theme
+    icon_themer.set_icon(c)
+    local editing = false
+    c:connect_signal("property::icon", function()
+        if editing then return end
+        editing = true;
+        icon_themer.set_icon(c);
+        editing = false
+    end)
+    ]]
+
+    -- Give ST an icon
     if c.class == "st-256color" or c.class == "st-dialog" or c.class ==
         "st-float" or c.instance == "st-256color" then
         local new_icon = gears.surface(gfs.get_configuration_dir() ..
                                            "icons/ghosts/terminal.png")
         c.icon = new_icon._native
-        --[[  elseif c.class == "discord" or c.instance == "discord" then
-        local new_icon = gears.surface(gfs.get_configuration_dir() ..
-                                           "icons/ghosts/discord.png")
-        c.icon = new_icon._native]] --
+    end
+
+    local icon = menubar.utils.lookup_icon(c.instance)
+    local lower_icon = menubar.utils.lookup_icon(c.instance:lower())
+
+    -- Fallback icon for clients
+    if c.icon == nil then
+        local i = gears.surface(gfs.get_configuration_dir() ..
+                                    "icons/ghosts/awesome.png")
+        c.icon = i._native
     end
 end)
 

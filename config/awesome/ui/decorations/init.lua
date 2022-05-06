@@ -1,8 +1,11 @@
--- local awful = require("awful")
+local awful = require("awful")
+local beautiful = require("beautiful")
 
-require("ui.decorations.playerctl")
+-- require("ui.decorations.playerctl")
 
-local add_decorations = function(c) require("ui.decorations.top")(c) end
+local add_decorations = function(c)
+    require("ui.decorations.top")(c)
+end
 
 client.connect_signal("request::titlebars", function(c)
     c.titlebars = true
@@ -11,7 +14,6 @@ client.connect_signal("request::titlebars", function(c)
     end
 end)
 
---[[
 screen.connect_signal('arrange', function(s)
     local layout = s.selected_tag.layout.name
 
@@ -27,4 +29,3 @@ screen.connect_signal('arrange', function(s)
         ::continue::
     end
 end)
-]]

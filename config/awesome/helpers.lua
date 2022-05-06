@@ -89,6 +89,14 @@ helpers.rrect = function(radius)
     end
 end
 
+-- Create powerline shape
+
+helpers.powerline = function(width, height)
+  return function(cr)
+    gears.shape.powerline(cr, width, height)
+  end
+end
+
 -- Create pi
 
 helpers.pie = function(width, height, start_angle, end_angle, radius)
