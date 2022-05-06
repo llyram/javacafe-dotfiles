@@ -44,7 +44,7 @@
   };
 
   outputs =
-    { self, home, nixpkgs, discocss, naersk, nixpkgs-f2k, ... }@inputs:
+    { self, home, nixpkgs, discocss, naersk, nixpkgs-f2k, nixos-wsl, ... }@inputs:
       with nixpkgs.lib;
       let
         config = {
