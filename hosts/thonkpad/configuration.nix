@@ -255,7 +255,7 @@ in
       wacom.enable = true;
       videoDrivers = [ "modesetting" ];
       deviceSection = ''
-      Option "DRI" "3"
+        Option "DRI" "3"
       '';
       useGlamor = true;
 

@@ -3,6 +3,5 @@ final: prev: {
     src = prev.luaFormatter-src;
   };
 
-  wezterm-nightly = prev.callPackage ../derivations/wezterm-nightly.nix {
-  };
+  wezterm-nightly = prev.callPackage ../derivations/wezterm-nightly.nix { };
 }
