@@ -11,7 +11,7 @@
     packages = with pkgs; [
       neofetch
       neovim
-      nixpkgs-fmt;
+      nixpkgs-fmt
     ];
 
     sessionVariables = {
