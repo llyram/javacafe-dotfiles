@@ -44,7 +44,7 @@
       "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
     ];
 
-    trusted-users = [ "root" "javacafe01" "meems"];
+    trusted-users = [ "root" "javacafe01" "meems" ];
   };
 }
 
