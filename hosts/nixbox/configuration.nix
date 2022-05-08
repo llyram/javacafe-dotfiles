@@ -7,7 +7,7 @@
     vim
   ];
 
-  users.users.zero = {
+  users.users.meems = {
     isNormalUser = true;
     home = "/home/meems";
     shell = pkgs.zsh;
