@@ -1,8 +1,8 @@
-{ stdenv, pkgs, src, ... }:
+{ stdenv, pkgs, src, version, ... }:
 
 stdenv.mkDerivation rec {
   name = "lua-format";
-  version = "999-master";
+  inherit version;
   inherit src;
   nativeBuildInputs = [ pkgs.cmake ];
 }

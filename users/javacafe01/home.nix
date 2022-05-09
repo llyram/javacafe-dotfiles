@@ -96,7 +96,7 @@ in
       sqlite
       tectonic
       trash-cli
-      wezterm-nightly
+      wezterm-git
       xdg-user-dirs
       zoom-us
 
@@ -283,7 +283,9 @@ in
 
     rofi = {
       enable = true;
-      package = pkgs.rofi.override { plugins = [ pkgs.rofi-emoji ]; };
+      package = pkgs.rofi.override {
+        plugins = [ pkgs.rofi-emoji ];
+      };
 
       extraConfig = {
         display-drun = "";

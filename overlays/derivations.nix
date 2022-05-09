@@ -1,7 +1,13 @@
-final: prev: {
+final: prev:
+{
   luaFormatter = prev.callPackage ../derivations/luaFormatter.nix {
     src = prev.luaFormatter-src;
+    version = "999-master";
   };
 
-  wezterm-nightly = prev.callPackage ../derivations/wezterm-nightly.nix { };
+  wezterm-git = prev.callPackage ../derivations/wezterm-git.nix {
+    src = prev.wezterm-git-src;
+    version = "999-master";
+    naersk-lib = prev.naersk-lib;
+  };
 }

@@ -65,7 +65,6 @@ in
         cantarell-fonts
         emacs-all-the-icons-fonts
         liberation_ttf
-        noto-fonts-emoji-blob-bin
         sarasa-gothic
         twemoji-color-font;
 
