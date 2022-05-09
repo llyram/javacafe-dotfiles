@@ -1,17 +1,23 @@
-{ config, nixpkgs, home, discocss, overlays }:
+{ config, nixpkgs, home, discocss, overlays, inputs }:
 
 home.lib.homeManagerConfiguration rec {
   system = "x86_64-linux";
   username = "javacafe01";
   homeDirectory = "/home/${username}";
 
+  pkgs = import inputs.nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+          inherit overlays;
+        };
+
   configuration.imports = [
-    { nixpkgs = { inherit config overlays; }; }
+    # { nixpkgs = { inherit config overlays; }; }
     ./home.nix
   ];
 
   # Default nixpkgs for home.nix
-  pkgs = nixpkgs.outputs.legacyPackages.${system};
+  # pkgs = nixpkgs.outputs.legacyPackages.${system};
 
   # Extra home-manager modules that aren't upstream
   extraModules = [
@@ -28,4 +34,3 @@ home.lib.homeManagerConfiguration rec {
   */
   stateVersion = "22.05";
 }
-

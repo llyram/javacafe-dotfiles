@@ -14,6 +14,15 @@
     options = "--delete-older-than 30d";
   };
 
+  nixPath =
+    let path = toString ./.;
+    in
+    [
+      "repl=${path}/repl.nix"
+      "nixpkgs=${nixpkgs}"
+      "home-manager=${inputs.home}"
+    ];
+
   optimise.automatic = true;
 
   package = inputs.master.legacyPackages.${system}.nix;
@@ -25,7 +34,8 @@
   };
 
   settings = {
-    allowed-users = [ "javacafe01" ];
+    accept-flake-config = true;
+    allowed-users = [ "javacafe01" "meems" ];
     auto-optimise-store = true;
     max-jobs = 12;
     sandbox = false;

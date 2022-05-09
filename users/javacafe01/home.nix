@@ -82,13 +82,13 @@ in
       feh
       gimp
       glxinfo
-      google-chrome
       maim
       manix
       matlab
       matlab-mlint
       gnome.eog
       gnome.nautilus
+      google-chrome
       mpc_cli
       neovim-nightly
       pandoc

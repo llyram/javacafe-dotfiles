@@ -113,7 +113,7 @@
 
         homeConfigurations = {
           javacafe01 = import ./users/javacafe01 {
-            inherit config nixpkgs home discocss overlays;
+            inherit config nixpkgs home discocss overlays inputs;
           };
 
           meems = import ./users/meems {
