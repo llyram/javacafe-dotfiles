@@ -6,10 +6,10 @@ home.lib.homeManagerConfiguration rec {
   homeDirectory = "/home/${username}";
 
   pkgs = import inputs.nixpkgs {
-          system = "x86_64-linux";
-          config.allowUnfree = true;
-          inherit overlays;
-        };
+    system = "x86_64-linux";
+    config.allowUnfree = true;
+    inherit overlays;
+  };
 
   configuration.imports = [
     # { nixpkgs = { inherit config overlays; }; }
