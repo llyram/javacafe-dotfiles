@@ -10,7 +10,7 @@
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     nix-matlab.url = "gitlab:doronbehar/nix-matlab";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
-    nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
+    nixpkgs-f2k.url = "github:JavaCafe01/nixpkgs-f2k/wezterm";
     nur.url = "github:nix-community/NUR";
 
     # Nixpkgs branches

@@ -6,7 +6,7 @@ local beautiful = require("beautiful")
 require("configuration.autostart")
 
 -- Default Applications
-terminal = "wezterm"
+terminal = "wezterm start --always-new-process"
 editor = "neovide"
 editor_cmd = editor
 browser = "firefox"
