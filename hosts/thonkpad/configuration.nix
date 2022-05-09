@@ -195,7 +195,7 @@ in
       enable = true;
       experimentalBackends = true;
       backend = "glx";
-      vSync = true;
+      vSync = false;
       shadow = true;
       shadowOffsets = [ (-12) (-12) ];
       shadowOpacity = 0.75;
@@ -253,10 +253,13 @@ in
       libinput.enable = true;
       dpi = 144;
       wacom.enable = true;
-      videoDrivers = [ "modesetting" ];
+      videoDrivers = [ "intel" ];
+
       deviceSection = ''
         Option "DRI" "3"
+        Option "TearFree" "true"
       '';
+
       useGlamor = true;
 
       displayManager = {
