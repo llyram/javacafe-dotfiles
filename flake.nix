@@ -16,7 +16,8 @@
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
-    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # Non Flakes
     luaFormatter = {
@@ -31,7 +32,7 @@
     zsh-syntax-highlighting = { url = "github:zsh-users/zsh-syntax-highlighting"; flake = false; };
 
     # Default branch
-    nixpkgs.follows = "unstable";
+    nixpkgs.follows = "nixpkgs-unstable";
 
     discocss.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";

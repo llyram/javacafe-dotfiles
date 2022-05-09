@@ -25,7 +25,7 @@
 
   optimise.automatic = true;
 
-  package = inputs.master.legacyPackages.${system}.nix;
+  package = inputs.nixpkgs-unstable.legacyPackages.${system}.nix;
 
   registry = {
     system.flake = inputs.self;
