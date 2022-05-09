@@ -11,6 +11,8 @@ with theme.colors;
   Xft.hintstyle: hintslight
   Xft.lcdfilter: lcddefault
 
+  rofi.dpi: 144
+
   ! special
   *.foreground:   #${fg}
   *.background:   #${bg}
