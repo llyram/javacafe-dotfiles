@@ -123,8 +123,6 @@ in
     };
   };
 
-  sound.enable = true;
-
   systemd = {
     services.rtkit-daemon = import ./services/rtkit-daemon.nix { inherit pkgs; };
   };

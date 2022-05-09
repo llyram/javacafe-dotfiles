@@ -69,7 +69,7 @@ in
         anonymousClients.allowedIpRanges = [ "127.0.0.1" ];
       };
 
-      package = pkgs.pulseaudioFull;
+      package = pkgs.master.pulseaudioFull;
       extraConfig = "\n    load-module module-switch-on-connect\n    ";
     };
 
@@ -291,5 +291,6 @@ in
     };
   };
 
+  sound.enable = true;
   system.stateVersion = "22.05";
 }
