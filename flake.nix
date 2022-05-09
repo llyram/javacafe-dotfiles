@@ -28,11 +28,20 @@
     };
 
     fzf-tab = { url = "github:Aloxaf/fzf-tab"; flake = false; };
+
+    wezterm-git = {
+      type = "git";
+      url = "https://github.com/wez/wezterm.git";
+      ref = "main";
+      submodules = true;
+      flake = false;
+    };
+
     zsh-completions = { url = "github:zsh-users/zsh-completions"; flake = false; };
     zsh-syntax-highlighting = { url = "github:zsh-users/zsh-syntax-highlighting"; flake = false; };
 
     # Default branch
-    nixpkgs.follows = "nixpkgs-unstable";
+    nixpkgs.follows = "nixos-unstable";
 
     discocss.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
@@ -78,6 +87,7 @@
                 # Non Flakes
                 fzf-tab-src = fzf-tab;
                 luaFormatter-src = luaFormatter;
+                wezterm-git-src = wezterm-git;
                 zsh-completions-src = zsh-completions;
                 zsh-syntax-highlighting-src = zsh-syntax-highlighting;
 
