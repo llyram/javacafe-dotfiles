@@ -19,6 +19,8 @@ notifbox.create = function(icon, n, width)
     dismiss.forced_height = dpi(14)
     dismiss.forced_width = dpi(14)
 
+    
+
     box = wibox.widget {
         {
             {
@@ -72,7 +74,7 @@ notifbox.create = function(icon, n, width)
                                         font = beautiful.font,
                                         widget = wibox.widget.textbox
                                     },
-                                    left = dpi(30),
+                                    left = dpi(10),
                                     widget = wibox.container.margin
                                 },
                                 {

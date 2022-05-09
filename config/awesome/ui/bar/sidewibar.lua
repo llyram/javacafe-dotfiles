@@ -348,17 +348,29 @@ screen.connect_signal("request::desktop_decoration", function(s)
             {
                 {
                     require("ui.widgets.qs-panel"),
-                    forced_height = dpi(875),
                     widget = wibox.container.constraint
                 },
-                nil,
-                nil,
+                {
+                    require("ui.notifs.notif-center"),
+                    left = dpi(20),
+                    right = dpi(20),
+                    widget = wibox.container.margin
+                },
+                {
+                    {
+                        require("ui.widgets.playerctl"),
+                        forced_height = dpi(100),
+                        widget = wibox.container.constraint
+                    },
+                    left = dpi(20),
+                    widget = wibox.container.margin
+                },
                 layout = wibox.layout.align.vertical
             },
-            top = 10,
-            bottom = 30,
-            left = 10,
-            right = 10,
+            top = dpi(10),
+            bottom = dpi(30),
+            left = dpi(10),
+            right = dpi(10),
             widget = wibox.container.margin
         },
         bg = beautiful.xbackground,
