@@ -34,6 +34,8 @@ in
         useOSProber = true;
       };
     };
+
+    resumeDevice = "/dev/nvmen1p5";
   };
 
   hardware = {
@@ -42,7 +44,6 @@ in
       package = pkgs.bluezFull;
     };
 
-    cpu.intel.updateMicrocode = true;
     enableRedistributableFirmware = true;
 
     opengl = {
