@@ -72,6 +72,7 @@ naersk-lib.buildPackage {
   singleStep = true;
 
   gitAllRefs = true;
+  gitSubmodules = true;
 
   doCheck = false;
   dontPatchELF = true;
