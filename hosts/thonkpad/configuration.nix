@@ -35,7 +35,7 @@ in
       };
     };
 
-    resumeDevice = "/dev/nvmen1p5";
+    resumeDevice = "/dev/nvme0n1p5";
   };
 
   hardware = {
