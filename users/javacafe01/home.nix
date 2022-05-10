@@ -110,7 +110,7 @@ in
       nodePackages.bash-language-server
       nodePackages.pyright
       nodePackages.vim-language-server
-      python-language-server
+      stable.python-language-server
       rnix-lsp
       rust-analyzer
       shellcheck
