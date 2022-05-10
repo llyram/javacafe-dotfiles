@@ -25,7 +25,7 @@
 
   optimise.automatic = true;
 
-  package = inputs.nixpkgs-unstable.legacyPackages.${system}.nix;
+  package = inputs.master.legacyPackages.${system}.nix;
 
   registry = {
     system.flake = inputs.self;
@@ -37,7 +37,7 @@
     accept-flake-config = true;
     allowed-users = [ "javacafe01" "meems" ];
     auto-optimise-store = true;
-    max-jobs = 12;
+    max-jobs = "auto";
     sandbox = false;
 
     substituters = [
