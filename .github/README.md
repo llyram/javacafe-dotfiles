@@ -26,11 +26,11 @@ nix-shell -p git nixUnstable
 git clone https://github.com/JavaCafe01/dotfiles /mnt/etc/nixos
 
 # Remove this file
-rm /mnt/etc/nixos/thonkpad/hardware-configuration.nix
+rm /mnt/etc/nixos/hosts/thonkpad/hardware-configuration.nix
 
 # Generate a config and copy the hardware configuration, disregarding the generated configuration.nix
 nixos-generate-config --root /mnt
-cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/thonkpad/
+cp /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/thonkpad/
 rm /mnt/etc/nixos/configuration.nix
 
 # Make sure you're in the configuration directory
