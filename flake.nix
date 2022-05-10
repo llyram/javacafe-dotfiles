@@ -63,7 +63,7 @@
         overlays = with inputs;
           [
             (final: _:
-              let system = final.system;
+              let inherit (final) system;
               in
               {
                 # Packages provided by flake inputs

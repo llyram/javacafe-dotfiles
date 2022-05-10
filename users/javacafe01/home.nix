@@ -172,9 +172,8 @@ in
 
     discocss = {
       enable = true;
-      discord = pkgs.master.discord;
-      discordAlias = true;
       css = import ./programs/discord-css.nix { inherit theme; };
+      discordAlias = false;
     };
 
     emacs = {
@@ -439,7 +438,7 @@ in
     };
 
     mpdris2 = {
-      enable = config.services.mpd.enable;
+      inherit (config.services.mpd) enable;
       multimediaKeys = true;
     };
 

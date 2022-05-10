@@ -1,4 +1,4 @@
-{}:
+_:
 ''
   audio_output {
     type "pulse"

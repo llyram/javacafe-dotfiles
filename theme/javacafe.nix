@@ -1,4 +1,4 @@
-{}:
+_:
 
 rec {
   dbg = "10171e"; # Darker BG
