@@ -88,6 +88,7 @@ in
       matlab-mlint
       gnome.eog
       gnome.nautilus
+      gnome-text-editor
       google-chrome
       mpc_cli
       neovim-nightly
