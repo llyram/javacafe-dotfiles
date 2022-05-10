@@ -96,7 +96,7 @@ in
       sqlite
       tectonic
       trash-cli
-      wezterm-git
+      wezterm
       xdg-user-dirs
       zoom-us
 
