@@ -1,4 +1,4 @@
-name: "Nix-Config Format Check"
+name: "nix-config format check"
 on:
   pull_request:
   push:
