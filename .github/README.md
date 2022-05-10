@@ -16,7 +16,7 @@ Welcome to my system configuration files! Ironically, nothing here is actually u
 
 <div>
 
-<img src="https://github.com/JavaCafe01/dotfiles/blob/master/.github/assets/main.png" alt="img" align="right" width="400px">
+<img src="https://github.com/JavaCafe01/dotfiles/blob/master/.github/assets/main.png" alt="img" align="right" width="500px">
 
 | Type  | Used |
 | :---:  | :---:  |
