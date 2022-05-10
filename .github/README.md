@@ -12,6 +12,21 @@ Welcome to my system configuration files! Ironically, nothing here is actually u
 
 **Note**: Please don't use this as a template NixOS setup - I have been using NixOS for a year and I still don't know what I'm doing.
 
+<br />
+
+<img src="https://github.com/JavaCafe01/dotfiles/blob/master/.github/assets/main.png" alt="img" align="right" width="600px">
+
+| Type  | Used |
+| :---:  | :---:  |
+| OS  | [NixOS](https://nixos.org/)  |
+| Window Manager  | [AwesomeWM](https://github.com/awesomeWM/awesome)  |
+| Terminal | [Wezterm](https://github.com/wez/wezterm) |
+| Editor | [Neovim](https://neovim.io/) |
+| File Manager | Nautilus |
+| Shell | Zsh |
+| Browser | Firefox |
+
+<br />
 
 ## Setup for NixOS
 1. Get the latest [NixOS ISO](https://nixos.org/download.html) and boot into the installer/environment.
@@ -71,3 +86,25 @@ home-manager switch --flake '.#javacafe01'
 - An improved method of resizing clients in the tiled layout
 ### Save Floats
 - Saves positions of clients in the floating layout
+
+## More Screenshots
+
+<details>
+<summary>Lockscreen</summary>
+<br>
+<div align=center>
+<img src="https://github.com/JavaCafe01/dotfiles/blob/master/.github/assets/lockscreen.png" alt="img" align="center" width="800px">
+</div>
+</details>
+
+<details>
+<summary>Neovim</summary>
+<br>
+<div align=center>
+<img src="https://github.com/JavaCafe01/dotfiles/blob/master/.github/assets/vim.png" alt="img" align="center" width="600px">
+</div>
+</details>
+
+## Credits
+* [fortuneteller2k/nix-config](https://github.com/fortuneteller2k/nix-config)
+* [elenapan/dotfiles](https://github.com/elenapan/dotfiles)
