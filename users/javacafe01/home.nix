@@ -448,6 +448,10 @@ in
   xdg = {
     enable = true;
 
+    configFile = {
+      "wezterm/wezterm.lua".text = import ./programs/wezterm.nix { inherit theme; };
+    };
+
     userDirs = {
       enable = true;
       documents = "${config.home.homeDirectory}/Documents";

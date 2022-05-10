@@ -9,7 +9,7 @@ rec {
 
   c0 = "29343d";
   c1 = "f9929b";
-  c2 = "9ce5c0";
+  c2 = "7ed491";
   c3 = "fbdf90";
   c4 = "a3b8ef";
   c5 = "ccaced";
