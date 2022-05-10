@@ -22,8 +22,8 @@ Welcome to my system configuration files! Ironically, nothing here is actually u
 # Get into a Nix shell with Nix unstable and git
 nix-shell -p git nixUnstable
 
-# Clone my dotfiles
-git clone https://github.com/JavaCafe01/dotfiles /mnt/etc/nixos
+# Clone my dotfiles (it has submodules)
+git clone https://github.com/JavaCafe01/dotfiles /mnt/etc/nixos --recurse-submodules
 
 # Remove this file
 rm /mnt/etc/nixos/hosts/thonkpad/hardware-configuration.nix
