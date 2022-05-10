@@ -14,6 +14,8 @@ Welcome to my system configuration files! Ironically, nothing here is actually u
 
 <br />
 
+<div>
+
 <img src="https://github.com/JavaCafe01/dotfiles/blob/master/.github/assets/main.png" alt="img" align="right" width="400px">
 
 | Type  | Used |
@@ -24,7 +26,8 @@ Welcome to my system configuration files! Ironically, nothing here is actually u
 | Editor | [Neovim](https://neovim.io/) |
 | File Manager | Nautilus |
 | Shell | Zsh |
-| Browser | Firefox |
+  
+</div>
 
 <br />
 
