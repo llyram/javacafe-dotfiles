@@ -211,7 +211,6 @@ in
       ];
 
       opacityRules = [
-        "70:class_g = 'splash'"
       ];
 
       wintypes = {
@@ -237,7 +236,10 @@ in
         blur-background-fixed = true;
 
         blur-background-exclude = [
-          "!window_type = 'splash'"
+          "class_g = 'slop'",
+	        "class_g = 'Firefox' && argb",
+	        "name = 'rofi - Global Search'",
+	        "_GTK_FRAME_EXTENTS@:c"
         ];
       };
 
