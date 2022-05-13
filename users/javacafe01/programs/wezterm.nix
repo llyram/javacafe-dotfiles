@@ -5,6 +5,7 @@ with theme.colors;
 ''
   local wezterm = require('wezterm')
 
+  --[[
   wezterm.on("update-right-status", function(window, pane)
       local pad = {left = '45pt', right = '45pt', top = '45pt', bottom = '45pt'}
       local no_pad = {left = 0, right = 0, top = 0, bottom = 0}
@@ -15,6 +16,7 @@ with theme.colors;
       window:set_config_overrides(overrides)
       window:set_right_status("")
   end)
+  --]]
 
   function font_with_fallback(name, params)
       local names = {name, "Twitter Color Emoji"}

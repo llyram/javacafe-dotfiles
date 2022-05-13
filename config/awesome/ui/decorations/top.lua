@@ -86,12 +86,12 @@ local get_titlebar = function(c, height, tb_bg)
                     bg_color = beautiful.lighter_bg,
                     icon_shape = gears.shape.rectangle
                 }),
-                bg = beautiful.xcolor1,
+                bg = beautiful.darker_bg,
                 shape = helpers.rrect(beautiful.border_radius),
                 widget = wibox.container.background
             },
-            top = 7,
-            bottom = 7,
+            top = dpi(7),
+            bottom = dpi(7),
             widget = wibox.container.margin
         },
         {

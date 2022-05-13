@@ -15,7 +15,7 @@ local machi = require("module.layout-machi")
 beautiful.layout_machi = machi.get_icon()
 
 -- Icon Themer
-local icon_themer = require("module.icon_themer")
+-- local icon_themer = require("module.icon_themer")
 
 -- This is to slave windows' positions in floating layout
 -- Not Mine
@@ -49,17 +49,6 @@ client.connect_signal("request::manage", function(c, context)
         editing = false
     end)
     ]]
-
-    -- Give ST an icon
-    if c.class == "st-256color" or c.class == "st-dialog" or c.class ==
-        "st-float" or c.instance == "st-256color" then
-        local new_icon = gears.surface(gfs.get_configuration_dir() ..
-                                           "icons/ghosts/terminal.png")
-        c.icon = new_icon._native
-    end
-
-    local icon = menubar.utils.lookup_icon(c.instance)
-    local lower_icon = menubar.utils.lookup_icon(c.instance:lower())
 
     -- Fallback icon for clients
     if c.icon == nil then
