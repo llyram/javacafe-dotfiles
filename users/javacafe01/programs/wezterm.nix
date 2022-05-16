@@ -138,7 +138,7 @@ with theme.colors;
       window_close_confirmation = "NeverPrompt",
 
       -- Padding
-      window_padding = {left = 45, right = 45, top = 45, bottom = 45},
+      window_padding = {left = 40pt, right = 40pt, top = 40pt, bottom = 40pt},
 
       -- No opacity
       inactive_pane_hsb = {saturation = 1.0, brightness = 1.0},
