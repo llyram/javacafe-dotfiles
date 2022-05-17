@@ -114,7 +114,7 @@ in
       rnix-lsp
       rust-analyzer
       shellcheck
-      # sumneko-lua-language-server
+      sumneko-lua-language-server
 
       # Formatters
       black
@@ -125,25 +125,18 @@ in
       rustfmt
       shfmt
 
-      # Emacs Specific
-      (aspellWithDicts (ds: with ds; [ en en-computers en-science ]))
-      editorconfig-core-c
+      # Extras
       fd
-      git
       gnuplot
       gnutls
       imagemagick
-      languagetool
       pandoc
-      python39Packages.jupyter
       sdcv
       sqlite
-      tectonic
       (ripgrep.override { withPCRE2 = true; })
     ];
 
     sessionPath = [
-      "${config.xdg.configHome}/emacs/bin"
       "${config.home.homeDirectory}/.local/bin"
     ];
 
@@ -174,12 +167,6 @@ in
       enable = true;
       css = import ./programs/discord-css.nix { inherit theme; };
       discordAlias = false;
-    };
-
-    emacs = {
-      enable = false;
-      package = pkgs.emacsGit;
-      extraPackages = epkgs: [ epkgs.vterm ];
     };
 
     exa = {
@@ -345,7 +332,7 @@ in
       initExtra = ''
         set -k
         setopt auto_cd
-        export PATH="''${HOME}/.local/bin:''${HOME}/go/bin:''${HOME}/.emacs.d/bin:''${HOME}/.npm/bin:''${HOME}/.cargo/bin:''${PATH}"
+        export PATH="''${HOME}/.local/bin:''${HOME}/go/bin:''${HOME}/.npm/bin:''${HOME}/.cargo/bin:''${PATH}"
         setopt NO_NOMATCH   # disable some globbing
 
         function run() {

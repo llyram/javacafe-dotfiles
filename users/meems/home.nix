@@ -196,7 +196,7 @@ in
       initExtra = ''
         set -k
         setopt auto_cd
-        export PATH="''${HOME}/.local/bin:''${HOME}/go/bin:''${HOME}/.emacs.d/bin:''${HOME}/.npm/bin:''${HOME}/.cargo/bin:''${PATH}"
+        export PATH="''${HOME}/.local/bin:''${HOME}/go/bin:''${HOME}/.npm/bin:''${HOME}/.cargo/bin:''${PATH}"
         setopt NO_NOMATCH   # disable some globbing
         function run() {
           nix run nixpkgs#$@

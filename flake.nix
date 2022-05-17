@@ -4,7 +4,6 @@
   inputs = {
     # Flake inputs
     discocss.url = "github:mlvzk/discocss/flake";
-    emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
     naersk.url = "github:nix-community/naersk";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
@@ -35,7 +34,6 @@
     nixpkgs.follows = "nixos-unstable";
 
     discocss.inputs.nixpkgs.follows = "nixpkgs";
-    emacs.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
     naersk.inputs.nixpkgs.follows = "nixpkgs";
     neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
@@ -93,7 +91,6 @@
                 unstable = import unstable { inherit config system; };
                 stable = import stable { inherit config system; };
               })
-            emacs.overlay
             nur.overlay
             neovim-nightly.overlay
             nix-matlab.overlay

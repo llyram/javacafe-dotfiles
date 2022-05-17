@@ -63,7 +63,6 @@ in
     fonts = lib.attrValues {
       inherit (pkgs)
         cantarell-fonts
-        emacs-all-the-icons-fonts
         liberation_ttf
         sarasa-gothic
         twemoji-color-font;
