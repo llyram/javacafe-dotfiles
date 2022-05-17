@@ -27,11 +27,11 @@
           ;;
 
       "mp4")
-          ${pkgs.giph}/bin/giph -y -g "1920x1080+0+0" -f 60 $file2
+          ${pkgs.giph}/bin/giph -y -g "2560x1440+0+0" -f 60 $file2
           ;;
 
       *)
-          ${pkgs.giph}/bin/giph -y -g "1920x1080+0+0" $file
+          ${pkgs.giph}/bin/giph -y -g "2560x1440+0+0" $file
           ;;
   esac
 ''
