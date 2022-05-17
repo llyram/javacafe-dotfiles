@@ -211,7 +211,7 @@ theme.useless_gap = dpi(10)
 -- Exit Screen
 --
 theme.exit_screen_fg = theme.xforeground
-theme.exit_screen_bg = theme.xcolor0
+theme.exit_screen_bg = theme.xcolor0 .. "80"
 
 -- Wibar
 --
