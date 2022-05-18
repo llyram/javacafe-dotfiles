@@ -3,7 +3,7 @@
 let theme = import ../../theme/theme.nix { };
 in
 {
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
 
   console =
     let

@@ -18,6 +18,7 @@ in
     kernelParams = [
       "acpi_backlight=native"
       "i915.enable_psr=0"
+      "i915.enable_guc=2"
     ];
 
     kernel.sysctl."vm.swappiness" = 1;
@@ -211,7 +212,6 @@ in
       libinput.enable = true;
       dpi = 144;
       wacom.enable = true;
-      useGlamor = true;
       videoDrivers = [ "modesetting" ];
 
       deviceSection = ''
