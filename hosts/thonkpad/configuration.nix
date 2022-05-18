@@ -63,13 +63,7 @@ in
       enable = true;
       daemon.config.avoid-resampling = "yes";
       support32Bit = true;
-
-      tcp = {
-        enable = true;
-        anonymousClients.allowedIpRanges = [ "127.0.0.1" ];
-      };
-
-      package = pkgs.master.pulseaudioFull;
+      package = pkgs.pulseaudioFull;
       extraConfig = "\n    load-module module-switch-on-connect\n    ";
     };
 
@@ -205,7 +199,7 @@ in
       experimentalBackends = true;
       backend = "glx";
       vSync = false;
-      shadow = true;
+      shadow = false;
       shadowOffsets = [ (-12) (-12) ];
       shadowOpacity = 0.75;
 

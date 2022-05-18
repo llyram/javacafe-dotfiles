@@ -10,17 +10,8 @@ local menubar = require("menubar")
 -- Bling Module
 local bling = require("module.bling")
 
--- Layout Machi
-local machi = require("module.layout-machi")
-beautiful.layout_machi = machi.get_icon()
-
 -- Icon Themer
--- local icon_themer = require("module.icon_themer")
-
--- This is to slave windows' positions in floating layout
--- Not Mine
--- https://github.com/larkery/awesome/blob/master/savefloats.lua
-require("module.savefloats")
+local icon_theme = require("module.bling.helpers.icon_theme")()
 
 -- Better mouse resizing on tiled
 -- Not mine
@@ -38,22 +29,9 @@ client.connect_signal("request::manage", function(c, context)
         awful.placement.no_offscreen(c)
     end
 
-    --[[
-    -- Change icons to set theme
-    icon_themer.set_icon(c)
-    local editing = false
-    c:connect_signal("property::icon", function()
-        if editing then return end
-        editing = true;
-        icon_themer.set_icon(c);
-        editing = false
-    end)
-    ]]
-
     -- Fallback icon for clients
     if c.icon == nil then
-        local i = gears.surface(gfs.get_configuration_dir() ..
-                                    "icons/ghosts/awesome.png")
+        local i = gears.surface(beautiful.theme_assets.awesome_icon(256, beautiful.xcolor8, beautiful.darker_bg))
         c.icon = i._native
     end
 end)
@@ -77,19 +55,12 @@ local horizontal = bling.layout.horizontal
 local equal = bling.layout.equalarea
 local deck = bling.layout.deck
 
-machi.editor.nested_layouts = {
-    ["0"] = deck,
-    ["1"] = awful.layout.suit.spiral,
-    ["2"] = awful.layout.suit.fair,
-    ["3"] = awful.layout.suit.fair.horizontal
-}
-
 -- Set the layouts
 
 tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts({
         awful.layout.suit.tile, awful.layout.suit.floating, centered, mstab,
-        horizontal, machi.default_layout, equal, deck
+        horizontal, equal, deck
     })
 end)
 

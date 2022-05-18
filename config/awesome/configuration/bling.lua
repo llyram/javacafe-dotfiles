@@ -1,9 +1,6 @@
 local awful = require("awful")
-local wibox = require("wibox")
 local beautiful = require("beautiful")
-local helpers = require("helpers")
 local bling = require("module.bling")
-local rubato = require("module.rubato")
 
 bling.widget.tag_preview.enable {
     show_client_content = true,

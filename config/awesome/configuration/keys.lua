@@ -4,7 +4,6 @@ local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local helpers = require("helpers")
 -- Custom modules
-local machi = require("module.layout-machi")
 local bling = require("module.bling")
 
 local beautiful = require("beautiful")
@@ -127,20 +126,6 @@ awful.keyboard.append_global_keybindings({
     awful.key({modkey, "Shift"}, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"})
 
-})
-
--- Layout Machi
-awful.keyboard.append_global_keybindings({
-    awful.key({modkey}, ".",
-              function() machi.default_editor.start_interactive() end, {
-        description = "edit the current layout if it is a machi layout",
-        group = "layout"
-    }),
-    awful.key({modkey}, "/", function() machi.switcher.start(client.focus) end,
-              {
-        description = "switch between windows for a machi layout",
-        group = "layout"
-    })
 })
 
 -- Launcher and screen
