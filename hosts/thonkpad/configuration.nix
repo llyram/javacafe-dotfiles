@@ -154,7 +154,7 @@ in
       enable = true;
       experimentalBackends = true;
       backend = "glx";
-      vSync = false;
+      vSync = true;
       shadow = false;
       shadowOffsets = [ (-12) (-12) ];
       shadowOpacity = 0.75;
@@ -209,10 +209,16 @@ in
     xserver = {
       enable = true;
       layout = "us";
-      libinput.enable = true;
-      dpi = 144;
+
+      libinput = {
+        enable = true;
+        naturalScrolling = true;
+      };
+
       wacom.enable = true;
       videoDrivers = [ "modesetting" ];
+
+      dpi = 144;
 
       deviceSection = ''
         Option "DRI" "3"
