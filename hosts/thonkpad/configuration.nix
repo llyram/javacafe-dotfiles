@@ -121,9 +121,7 @@ in
     };
 
     networkmanager.enable = false;
-
     useDHCP = false;
-
     wireless.iwd.enable = true;
   };
 
@@ -256,14 +254,8 @@ in
       libinput.enable = true;
       dpi = 144;
       wacom.enable = true;
-      videoDrivers = [ "intel" ];
-
-      deviceSection = ''
-        Option "DRI" "3"
-        Option "TearFree" "true"
-      '';
-
       useGlamor = true;
+      videoDrivers = [ "modesetting" ];
 
       displayManager = {
         autoLogin = {
