@@ -212,7 +212,7 @@ in
 
       libinput = {
         enable = true;
-        naturalScrolling = true;
+        touchpad.naturalScrolling = true;
       };
 
       wacom.enable = true;
