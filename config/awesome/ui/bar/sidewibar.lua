@@ -139,7 +139,7 @@ awesome.connect_signal("signal::volume", function(vol, muted)
         vol_icon = ""
     end
 
-    if muted then vol_icon = "婢" end
+    if muted == 1 then vol_icon = "婢" end
 
     volume_widget.value = val
 

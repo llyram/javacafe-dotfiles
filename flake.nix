@@ -20,7 +20,6 @@
 
     # Non Flakes
     fzf-tab = { url = "github:Aloxaf/fzf-tab"; flake = false; };
-    lua-libpulse-glib = { url = "github:sclu1034/lua-libpulse-glib"; flake = false; };
 
     luaFormatter = {
       type = "git";
@@ -78,7 +77,6 @@
               }) // {
                 # Non Flakes
                 fzf-tab-src = fzf-tab;
-                lua-libpulse-glib-src = lua-libpulse-glib;
                 luaFormatter-src = luaFormatter;
                 zsh-completions-src = zsh-completions;
                 zsh-syntax-highlighting-src = zsh-syntax-highlighting;

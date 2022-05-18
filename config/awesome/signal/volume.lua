@@ -9,15 +9,15 @@ local muted_old = -1
 local function emit_volume_info()
     -- Get volume info of the currently active sink
     awful.spawn.easy_async_with_shell(
-        'echo -n $(pamixer --get-mute); echo -n "_$(pamixer --get-volume)"',
+        'echo -n $(pamixer --get-mute); echo "_$(pamixer --get-volume)"',
         function(stdout)
 
-            require("naughty").notify({title = "Volume", message = stdout:match("(.-)_")})
-            
-            local volume = stdout:match('(%d+)%% /')
-            local muted = stdout:match('muted:(%s+)[yes]')
-            local muted_int = muted and 1 or 0
+            local bool = string.match(stdout, "(.-)_")
+            local volume = string.match(stdout, "%d+")
+            local muted_int = -1
+            if bool == "true" then muted_int = 1 else muted_int = 0 end
             local volume_int = tonumber(volume)
+
             -- Only send signal if there was a change
             -- We need this since we use `pactl subscribe` to detect
             -- volume events. These are not only triggered when the
@@ -25,7 +25,7 @@ local function emit_volume_info()
             -- through `pavucontrol` or even without user intervention,
             -- when a media file starts playing.
             if volume_int ~= volume_old or muted_int ~= muted_old then
-                awesome.emit_signal("signal::volume", volume_int, muted)
+                awesome.emit_signal("signal::volume", volume_int, muted_int)
                 volume_old = volume_int
                 muted_old = muted_int
             end

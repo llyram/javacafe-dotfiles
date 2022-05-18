@@ -84,7 +84,7 @@ local hide_volume_adjust = gears.timer {
 awesome.connect_signal("signal::volume", function(vol, muted)
     volume_bar.value = vol
 
-    if muted or vol == 0 then
+    if muted == 1 or vol == 0 then
         volume_icon.markup = "<span foreground='" .. beautiful.xcolor4 ..
                                  "'><b>ﳌ</b></span>"
     else
