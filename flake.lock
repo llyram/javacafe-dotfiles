@@ -323,6 +323,22 @@
         "type": "github"
       }
     },
+    "lua-libpulse-glib": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1652712100,
+        "narHash": "sha256-A33Et2xyUmDMarjvR1vzEkK/Ea9XGpBcrOU4+DkEIEw=",
+        "owner": "sclu1034",
+        "repo": "lua-libpulse-glib",
+        "rev": "5634e205a21ad202444ea3632533da08b3ae802a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sclu1034",
+        "repo": "lua-libpulse-glib",
+        "type": "github"
+      }
+    },
     "luaFormatter": {
       "flake": false,
       "locked": {
@@ -764,6 +780,7 @@
         "discocss": "discocss",
         "fzf-tab": "fzf-tab",
         "home": "home",
+        "lua-libpulse-glib": "lua-libpulse-glib",
         "luaFormatter": "luaFormatter",
         "master": "master",
         "naersk": "naersk",
@@ -772,7 +789,7 @@
         "nixos-unstable": "nixos-unstable",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": [
-          "nixos-unstable"
+          "nixpkgs-unstable"
         ],
         "nixpkgs-f2k": "nixpkgs-f2k",
         "nixpkgs-unstable": "nixpkgs-unstable",

@@ -8,13 +8,12 @@ local volume_old = -1
 local muted_old = -1
 local function emit_volume_info()
     -- Get volume info of the currently active sink
-    -- The currently active sink has a star `*` in front of its index
-    -- In the output of `pacmd list-sinks`, lines +7 and +11 after "* index:"
-    -- contain the volume level and muted state respectively
-    -- This is why we are using `awk` to print them.
     awful.spawn.easy_async_with_shell(
-        "pacmd list-sinks | awk '/\\* index: /{nr[NR+7];nr[NR+11]}; NR in nr'",
+        'echo -n $(pamixer --get-mute); echo -n "_$(pamixer --get-volume)"',
         function(stdout)
+
+            require("naughty").notify({title = "Volume", message = stdout:match("(.-)_")})
+            
             local volume = stdout:match('(%d+)%% /')
             local muted = stdout:match('muted:(%s+)[yes]')
             local muted_int = muted and 1 or 0

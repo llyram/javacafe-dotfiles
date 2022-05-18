@@ -60,14 +60,6 @@ in
       ];
     };
 
-    pulseaudio = {
-      enable = true;
-      daemon.config.avoid-resampling = "yes";
-      support32Bit = true;
-      package = pkgs.pulseaudioFull;
-      extraConfig = "\n    load-module module-switch-on-connect\n    ";
-    };
-
     sensor.iio.enable = true;
 
     trackpoint = {
@@ -198,7 +190,6 @@ in
           "!window_type = 'splash'"
         ];
       };
-
     };
 
     thermald.enable = true;
@@ -242,17 +233,20 @@ in
         awesome = {
           enable = true;
 
-          luaModules = with pkgs.luaPackages; [
-            lgi
-            ldbus
-            luadbi-mysql
-            luaposix
-          ];
+          luaModules = lib.attrValues {
+            inherit (pkgs)
+              lua-libpulse-glib;
+
+            inherit (pkgs.luaPackages)
+              lgi
+              ldbus
+              luadbi-mysql
+              luaposix;
+          };
         };
       };
     };
   };
 
-  sound.enable = true;
   system.stateVersion = "22.05";
 }

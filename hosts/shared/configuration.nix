@@ -45,6 +45,7 @@ in
         nodejs
         pamixer
         psmisc
+        pulseaudio
         ripgrep
         unrar
         unzip
@@ -122,8 +123,23 @@ in
     };
   };
 
-  systemd = {
-    services.rtkit-daemon = import ./services/rtkit-daemon.nix { inherit pkgs; };
+  security.rtkit.enable = true;
+
+  services.pipewire = {
+    enable = true;
+
+    alsa = {
+      enable = true;
+      support32Bit = true;
+    };
+
+    jack.enable = true;
+    pulse.enable = true;
+  };
+
+  systemd.user.services = {
+    pipewire.wantedBy = [ "default.target" ];
+    pipewire-pulse.wantedBy = [ "default.target" ];
   };
 
   time = {

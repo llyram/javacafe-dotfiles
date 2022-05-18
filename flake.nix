@@ -19,6 +19,9 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # Non Flakes
+    fzf-tab = { url = "github:Aloxaf/fzf-tab"; flake = false; };
+    lua-libpulse-glib = { url = "github:sclu1034/lua-libpulse-glib"; flake = false; };
+
     luaFormatter = {
       type = "git";
       url = "https://github.com/Koihik/LuaFormatter.git";
@@ -26,12 +29,11 @@
       flake = false;
     };
 
-    fzf-tab = { url = "github:Aloxaf/fzf-tab"; flake = false; };
     zsh-completions = { url = "github:zsh-users/zsh-completions"; flake = false; };
     zsh-syntax-highlighting = { url = "github:zsh-users/zsh-syntax-highlighting"; flake = false; };
 
     # Default branch
-    nixpkgs.follows = "nixos-unstable";
+    nixpkgs.follows = "nixpkgs-unstable";
 
     discocss.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
@@ -76,6 +78,7 @@
               }) // {
                 # Non Flakes
                 fzf-tab-src = fzf-tab;
+                lua-libpulse-glib-src = lua-libpulse-glib;
                 luaFormatter-src = luaFormatter;
                 zsh-completions-src = zsh-completions;
                 zsh-syntax-highlighting-src = zsh-syntax-highlighting;
