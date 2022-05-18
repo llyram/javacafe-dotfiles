@@ -261,7 +261,7 @@ in
     };
 
     ncspot = {
-      enable = false;
+      enable = true;
       settings =
         {
           notify = false;

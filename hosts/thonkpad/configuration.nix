@@ -105,7 +105,7 @@ in
       feh
       iproute2
       iw
-  ];
+    ];
 
     variables = {
       VDPAU_DRIVER = lib.mkIf config.hardware.opengl.enable (lib.mkDefault "va_gl");
@@ -141,56 +141,13 @@ in
 
     dbus = {
       enable = true;
-
-      packages =
-        let
-          mopidyDbusServiceFile = pkgs.writeTextFile rec {
-            name = "org.mpris.MediaPlayer2.mopidy.conf";
-            destination = "/share/dbus-1/system.d/${name}";
-            text = ''
-              <!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
-              "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
-              <busconfig>
-              <!-- Allow mopidy user to publish the Mopidy-MPRIS service -->
-              <policy user="mopidy">
-              <allow own="org.mpris.MediaPlayer2.mopidy"/>
-              </policy>
-              <!-- Allow anyone to invoke methods on the Mopidy-MPRIS service -->
-              <policy context="default">
-              <allow send_destination="org.mpris.MediaPlayer2.mopidy"/>
-              <allow receive_sender="org.mpris.MediaPlayer2.mopidy"/>
-              </policy>
-              </busconfig>
-            '';
-          };
-        in
-        with pkgs; [ dconf mopidyDbusServiceFile ];
+      packages = with pkgs; [ dconf ];
     };
 
     fprintd.enable = true;
     fstrim.enable = true;
     gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
-
-    mopidy = {
-      enable = true;
-      extensionPackages = with pkgs; [ mopidy-spotify mopidy-mpris mopidy-mpd ];
-      configuration = ''
-        [mpris]
-        bus_type = system
-
-        [audio]
-        output = pulsesink server=127.0.0.1
-        
-        [spotify]
-        enabled = true
-        client_id = <client_id>
-        client_secret = <client_secret>
-        username = <username>
-        password = <password>
-        bitrate = 320
-      '';
-    };
 
     picom = {
       enable = true;
