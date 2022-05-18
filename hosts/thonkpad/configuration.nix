@@ -234,9 +234,6 @@ in
           enable = true;
 
           luaModules = lib.attrValues {
-            inherit (pkgs)
-              lua-libpulse-glib;
-
             inherit (pkgs.luaPackages)
               lgi
               ldbus
