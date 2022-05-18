@@ -214,6 +214,11 @@ in
       useGlamor = true;
       videoDrivers = [ "modesetting" ];
 
+      deviceSection = ''
+        Option "DRI" "3"
+        Option "AccelMethod" "glamor"
+      '';
+
       displayManager = {
         autoLogin = {
           enable = true;
