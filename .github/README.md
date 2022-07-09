@@ -1,6 +1,8 @@
 <div align=center>
 
-# dotfiles
+# dotnix
+
+ARCHIVED BECAUSE I DON'T USE NIXOS ANYMORE
 
 [![NixOS](https://img.shields.io/badge/NixOS-22.05-informational.svg?logo=nixos)](https://github.com/nixos/nixpkgs) [![AwesomeWM](https://img.shields.io/badge/AwesomeWM-git-blue.svg?logo=lua)](https://github.com/awesomeWM/awesome)
 
