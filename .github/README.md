@@ -1,10 +1,8 @@
 <div align=center>
 
-# dotnix
+# dotfiles
 
-ARCHIVED BECAUSE I DON'T USE NIXOS ANYMORE
-
-[![NixOS](https://img.shields.io/badge/NixOS-22.05-informational.svg?logo=nixos)](https://github.com/nixos/nixpkgs) [![AwesomeWM](https://img.shields.io/badge/AwesomeWM-git-blue.svg?logo=lua)](https://github.com/awesomeWM/awesome)
+[![NixOS](https://img.shields.io/badge/NixOS-22.11-informational.svg?logo=nixos)](https://github.com/nixos/nixpkgs) [![AwesomeWM](https://img.shields.io/badge/AwesomeWM-git-blue.svg?logo=lua)](https://github.com/awesomeWM/awesome)
 
 </div>
 
@@ -17,8 +15,6 @@ Welcome to my system configuration files! Ironically, nothing here is actually u
 <br />
 
 <div>
-
-<img src="https://github.com/JavaCafe01/dotfiles/blob/master/.github/assets/main.png" alt="img" align="right" width="450px">
 
 | Type  | Used |
 | :---:  | :---:  |
@@ -81,8 +77,6 @@ home-manager switch --flake '.#javacafe01'
 ## AwesomeWM Modules
 ### [bling](https://github.com/BlingCorp/bling)
 - Adds new layouts, modules, and widgets that try to primarily focus on window management
-### [layout-machi](https://github.com/xinhaoyuan/layout-machi)
-- Manual layout for Awesome with an interactive editor
 ### [UPower Battery Widget](https://github.com/Aire-One/awesome-battery_widget)
 - A widget accessing **UPower** for battery info with LGI
 ### [rubato](https://github.com/andOrlando/rubato)
@@ -92,6 +86,7 @@ home-manager switch --flake '.#javacafe01'
 ### Save Floats
 - Saves positions of clients in the floating layout
 
+<!---
 ## More Screenshots
 
 <details>
@@ -109,6 +104,7 @@ home-manager switch --flake '.#javacafe01'
 <img src="https://github.com/JavaCafe01/dotfiles/blob/master/.github/assets/vim.png" alt="img" align="center" width="600px">
 </div>
 </details>
+-->
 
 ## Credits
 * [fortuneteller2k/nix-config](https://github.com/fortuneteller2k/nix-config)
