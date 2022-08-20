@@ -6,14 +6,6 @@
 
 </div>
 
-<a href="https://awesomewm.org/"><img alt="AwesomeWM Logo" height="160" align = "left" src="https://upload.wikimedia.org/wikipedia/commons/0/07/Awesome_logo.svg"></a>
-
-Welcome to my system configuration files! Ironically, nothing here is actually under my `$HOME` directory. My system is managed by Nix, which I have no idea how to use. My AwesomeWM and Neovim configuration files are still written in lua, as the number of edits, features, and customizations I have done on them are too massive for me to convert those configs to Nix. The only configuration left to convert to Nix is **wezterm**.
-
-**Note**: Please don't use this as a template NixOS setup - I have been using NixOS for a year and I still don't know what I'm doing.
-
-<br />
-
 <div>
 
 | Type  | Used |
