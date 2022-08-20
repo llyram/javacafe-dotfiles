@@ -25,6 +25,9 @@ naughty.connect_signal("request::display_error", function(message, startup)
     }
 end)
 
+-- Default shell
+awful.util.shell = "sh"
+
 -- Initialize Theme
 local theme = "ghosts"
 beautiful.init(gfs.get_configuration_dir() .. "theme/" .. theme .. "/theme.lua")

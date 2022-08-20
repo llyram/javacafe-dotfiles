@@ -1,5 +1,7 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
+local xresources = require("beautiful.xresources")
+local dpi = xresources.apply_dpi
 local gears = require("gears")
 local wibox = require("wibox")
 local helpers = require("helpers")
@@ -31,24 +33,27 @@ local update_tags = function(self, c3)
 
     if c3.selected then
         bgbox.visible = true
-        taskbox.visible = true
+        taskbox.right = dpi(12)
+        if #c3:clients() == 0 then
+            taskbox.right = dpi(0)
+        end
     elseif #c3:clients() == 0 then
         bgbox.visible = false
-        taskbox.visible = false
+        taskbox.right = dpi(0)
     else
         bgbox.visible = true
-        taskbox.visible = true
+        taskbox.right = dpi(12)
     end
 end
 
-function get_taglist(s)
+local function get_taglist(s)
     local screen_for_taglist = s or awful.screen.focused()
 
     local tagsklist = awful.widget.taglist {
         screen = screen_for_taglist,
         filter = awful.widget.taglist.filter.all,
-        layout = {spacing = 8, layout = wibox.layout.fixed.vertical},
-        widget_template = {
+        layout = {spacing = 0, layout = wibox.layout.fixed.horizontal},
+        widget_template = { 
             {
                 {
                     {
@@ -58,20 +63,19 @@ function get_taglist(s)
                             valign = "center",
                             widget = wibox.container.place
                         },
-                        margins = {top = 8, bottom = 0, left = 1},
+                        margins = {right = dpi(12), left = dpi(12)},
                         widget = wibox.container.margin
                     },
                     {
                         {
                             id = "tasklist_role",
-                            layout = wibox.layout.fixed.vertical
+                            layout = wibox.layout.fixed.horizontal
                         },
                         id = "tasklist_margin_role",
-                        margins = {top = 2, left = 6, right = 6, bottom = 6},
                         widget = wibox.container.margin
                     },
-                    spacing = 0,
-                    layout = wibox.layout.fixed.vertical
+                    spacing = dpi(0),
+                    layout = wibox.layout.fixed.horizontal
                 },
                 widget = wibox.container.background
             },
@@ -85,14 +89,18 @@ function get_taglist(s)
                     screen = screen_for_taglist,
                     filter = generate_filter(t),
                     buttons = tasklist_buttons,
-                    layout = {spacing = 0, layout = wibox.layout.fixed.vertical},
+                    layout = {
+                        spacing = dpi(8),
+                        layout = wibox.layout.fixed.horizontal
+                    },
                     widget_template = {
                         {
                             {
                                 id = "clienticon",
                                 widget = awful.widget.clienticon
                             },
-                            top = 5,
+                            top = dpi(10),
+                            bottom = dpi(10),
                             widget = wibox.container.margin
                         },
                         create_callback = function(self, c, _, _)
@@ -109,7 +117,7 @@ function get_taglist(s)
                                         screen_for_taglist, false, c)
                                 end)
                         end,
-                        layout = wibox.layout.align.vertical
+                        layout = wibox.layout.align.horizontal
                     }
                 })
                 self:get_children_by_id("text_role")[1]:connect_signal(

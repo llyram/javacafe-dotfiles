@@ -1,1 +1,1 @@
-require("ui.bar.sidewibar")
+require("ui.bar.wibar")

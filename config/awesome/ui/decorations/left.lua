@@ -8,7 +8,7 @@ local helpers = require("helpers")
 
 local bling = require("module.bling")
 
-local get_titlebar = function(c, height, tb_bg)
+local get_titlebar = function(c, width, tb_bg)
 
     local tabbed_misc = bling.widget.tabbed_misc
 
@@ -23,8 +23,8 @@ local get_titlebar = function(c, height, tb_bg)
     end))
 
     awful.titlebar(c, {
-        size = height,
-        position = "top",
+        size = width,
+        position = "left",
         bg_normal = tb_bg,
         bg_focus = tb_bg
     }):setup{
@@ -37,17 +37,17 @@ local get_titlebar = function(c, height, tb_bg)
         nil,
         expand = "none",
         buttons = buttons,
-        layout = wibox.layout.align.horizontal
+        layout = wibox.layout.align.vertical
     }
 end
 
-local top = function(c)
-    local titlebar_height = beautiful.titlebar_size
+local left = function(c)
+    local titlebar_width = beautiful.titlebar_size
     local tb_bg = beautiful.darker_bg
     if c.class ~= nil and c.class:find("gnome") then
         tb_bg = beautiful.xcolor0
     end
-    get_titlebar(c, titlebar_height, tb_bg)
+    get_titlebar(c, titlebar_width, tb_bg)
 end
 
-return top
+return left

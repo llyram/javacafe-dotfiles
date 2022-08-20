@@ -67,7 +67,7 @@ awful.keyboard.append_global_keybindings({
     }), awful.key({modkey}, "u", awful.client.urgent.jumpto,
                   {description = "jump to urgent client", group = "client"}),
     awful.key({altkey}, "Tab", function()
-        awesome.emit_signal("bling::window_switcher::turn_on")
+        awesome.emit_signal("oof::window_switcher::turn_on")
     end, {description = "Window Switcher", group = "client"})
 })
 
@@ -92,9 +92,8 @@ awful.keyboard.append_global_keybindings({
               {description = "playerctl next", group = "awesome"}),
 
     -- Screen Shots/Vids
-    awful.key({}, "Print", function()
-        awful.spawn("flameshot launcher")
-    end, {description = "take a clipped screenshot", group = "awesome"}),
+    awful.key({}, "Print", function() awful.spawn("flameshot launcher") end,
+              {description = "take a clipped screenshot", group = "awesome"}),
     awful.key({modkey}, "Print", function()
         local fpath = screenshot.client()
         shot_notify(fpath)
@@ -145,6 +144,9 @@ awful.keyboard.append_global_keybindings({
     awful.key({modkey}, "v",
               function() awesome.emit_signal("scratch::chat") end,
               {description = "open chats", group = "scratchpad"}),
+     awful.key({modkey}, "s",
+              function() awesome.emit_signal("scratch::teams") end,
+              {description = "open teams", group = "scratchpad"}),
     awful.key({modkey}, "w", function() awful.spawn.with_shell(browser) end,
               {description = "open firefox", group = "launcher"}),
 
@@ -196,6 +198,15 @@ client.connect_signal("request::default_keybindings", function()
     awful.keyboard.append_client_keybindings({
         awful.key({modkey, "Shift"}, "f", function(c)
             c.fullscreen = not c.fullscreen
+
+	    --[[
+            if not c.fullscreen then
+                c.shape = helpers.rrect(beautiful.border_radius)
+            else
+                c.shape = require("gears.shape").rectangle
+            end
+	    --]]
+
             c:raise()
         end, {description = "toggle fullscreen", group = "client"}),
         awful.key({modkey}, "q", function(c) c:kill() end,

@@ -1,6 +1,8 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local ruled = require("ruled")
+local gears = require("gears")
+local helpers = require("helpers")
 
 ruled.client.connect_signal("request::rules", function()
 
@@ -51,7 +53,8 @@ ruled.client.connect_signal("request::rules", function()
         },
         properties = {
             border_width = beautiful.border_width,
-            border_color = beautiful.border_normal
+            border_color = beautiful.border_normal,
+	    -- shape = helpers.rrect(beautiful.border_radius)
         }
     }
 
@@ -70,7 +73,7 @@ ruled.client.connect_signal("request::rules", function()
     -- Titlebar rules
     ruled.client.append_rule {
         id = "titlebars",
-        rule_any = {type = {"normal", "dialog"}},
+        rule_any = {type = {"normal"}},
         except_any = {
             class = {
                 "Steam", "zoom", "jetbrains-studio", "Lutris",

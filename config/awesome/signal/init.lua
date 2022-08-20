@@ -3,7 +3,7 @@
 require("signal.battery")
 require("signal.volume")
 require("signal.brightness")
-require("signal.network")
+-- require("signal.network")
 -- require("signal.ram")
 -- require("signal.cpu")
 -- require("signal.temp")

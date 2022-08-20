@@ -1,34 +1,33 @@
 local awful = require("awful")
-local beautiful = require("beautiful")
-local xresources = require("beautiful.xresources")
-local dpi = xresources.apply_dpi
-local helpers = require("helpers")
+local client = client
 
--- require("ui.decorations.playerctl")
-
-local add_decorations = function(c) require("ui.decorations.top")(c) end
-
-client.connect_signal("request::titlebars", function(c)
-    c.titlebars = true
+local activate_dynamic_titlebars = function(c)
+  if c ~= nil then
     if not c.bling_tabbed then
-        if c.class ~= "music" then add_decorations(c) end
-    end
-end)
-
-screen.connect_signal('arrange', function(s)
-    local layout = s.selected_tag.layout.name
-
-    for _, c in pairs(s.clients) do
-        if not c.titlebars then goto continue end
-
-        if layout == 'floating' or c.floating and not c.maximized then
-            awful.titlebar.show(c)
-            c.shape = helpers.rrect(dpi(9))
+      if c.class ~= "music" and c.floating then
+        if c.width > c.height then
+          awful.titlebar.hide(c, "top")
+          require("ui.decorations.left")(c)
         else
-            awful.titlebar.hide(c)
-            c.shape = helpers.rrect(dpi(0))
+          awful.titlebar.hide(c, "left")
+          require("ui.decorations.top")(c)
         end
-
-        ::continue::
+      else
+        awful.titlebar.hide(c, "top")
+        awful.titlebar.hide(c, "left")
+      end
     end
+  end
+end
+
+client.connect_signal("property::width", activate_dynamic_titlebars)
+client.connect_signal("property::height", activate_dynamic_titlebars)
+client.connect_signal("property::floating", activate_dynamic_titlebars)
+
+client.connect_signal("request::manage", function(c, _)
+  if c.maximized or c.fullscreen then
+    awful.titlebar.hide(c)
+  else
+    activate_dynamic_titlebars(c)
+  end
 end)

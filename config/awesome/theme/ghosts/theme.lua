@@ -18,7 +18,7 @@ local theme = dofile(themes_path .. "default/theme.lua")
 theme.wallpaper = gfs.get_configuration_dir() .. "images/bg.png"
 theme.wallpaper_blur = gfs.get_configuration_dir() .. "images/bg_blur.png"
 
-theme.icon_theme = "Papirus-Dark"
+theme.icon_theme = "/usr/share/icons/Awaita"
 
 -- Titlebar icon path
 --
@@ -44,8 +44,8 @@ theme.delete_grey_icon = icon_path .. "notif-center/delete_grey.png"
 
 -- Load ~/.Xresources colors and set fallback colors
 --
-theme.darker_bg = "#10171e"
-theme.lighter_bg = "#1f272e"
+theme.darker_bg = "#13171b"
+theme.lighter_bg = "#21262e"
 theme.xbackground = xrdb.background or "#131a21"
 theme.xforeground = xrdb.foreground or "#ffffff"
 theme.xcolor0 = xrdb.color0 or "#29343d"
@@ -69,7 +69,7 @@ theme.xcolor15 = xrdb.color15 or "#eaeaea"
 --
 theme.font_name = "BlexMono Nerd Font Mono "
 theme.font = theme.font_name .. "8"
-theme.icon_font_name = "FiraCode Nerd Font Mono "
+theme.icon_font_name = theme.font_name
 theme.icon_font = theme.icon_font_name .. "18"
 theme.font_taglist = theme.icon_font_name .. "8"
 
@@ -92,11 +92,11 @@ theme.button_close = theme.xcolor1
 
 -- Borders
 --
-theme.border_width = dpi(2)
+theme.border_width = dpi(1)
 theme.oof_border_width = dpi(0)
 theme.border_normal = theme.darker_bg
 theme.border_focus = theme.darker_bg
-theme.border_radius = dpi(6)
+theme.border_radius = dpi(8)
 theme.client_radius = dpi(12)
 theme.widget_border_width = dpi(2)
 theme.widget_border_color = theme.darker_bg
@@ -110,24 +110,24 @@ theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
                                   taglist_square_size, theme.fg_normal)
 theme.taglist_font = theme.font_taglist
-theme.taglist_bg = theme.lighter_bg
+theme.taglist_bg = theme.wibar_bg
 theme.taglist_bg_focus = theme.lighter_bg
 theme.taglist_fg_focus = theme.xcolor4
-theme.taglist_bg_urgent = theme.lighter_bg
+theme.taglist_bg_urgent = theme.xcolor1 .. '55'
 theme.taglist_fg_urgent = theme.xcolor1
 theme.taglist_bg_occupied = theme.wibar_bg
 theme.taglist_fg_occupied = theme.xforeground
-theme.taglist_bg_empty = theme.lighter_bg
+theme.taglist_bg_empty = theme.wibar_bg
 theme.taglist_fg_empty = theme.xforeground
 theme.taglist_bg_volatile = transparent
 theme.taglist_fg_volatile = theme.xcolor11
 theme.taglist_disable_icon = true
 
-theme.taglist_shape_focus = helpers.rrect(theme.border_radius)
-theme.taglist_shape_empty = helpers.rrect(theme.border_radius)
-theme.taglist_shape = helpers.rrect(theme.border_radius)
-theme.taglist_shape_urgent = helpers.rrect(theme.border_radius)
-theme.taglist_shape_volatile = helpers.rrect(theme.border_radius)
+theme.taglist_shape_focus = gears.shape.rectangle
+theme.taglist_shape_empty = gears.shape.rectangle
+theme.taglist_shape = gears.shape.rectangle
+theme.taglist_shape_urgent = gears.shape.rectangle
+theme.taglist_shape_volatile = gears.shape.rectangle
 
 
 -- Tasklist
@@ -215,21 +215,21 @@ theme.exit_screen_bg = theme.xcolor0 .. "80"
 
 -- Wibar
 --
-theme.wibar_height = dpi(42)
+theme.wibar_height = dpi(34)
 theme.wibar_width = dpi(46)
 theme.panel_width = dpi(400)
 theme.wibar_margin = dpi(15)
 theme.wibar_spacing = dpi(15)
-theme.wibar_bg = theme.darker_bg .. '00'
+theme.wibar_bg = theme.darker_bg
 theme.wibar_bg_secondary = theme.xbackground
 theme.wibar_position = "top"
 
 -- Systray
 --
-theme.systray_icon_spacing = dpi(15)
+theme.systray_icon_spacing = dpi(10)
 theme.bg_systray = theme.darker_bg
 theme.systray_icon_size = dpi(15)
-theme.systray_max_rows = 2
+theme.systray_max_rows = 1
 
 -- Collision
 --

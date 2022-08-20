@@ -6,7 +6,7 @@ local beautiful = require("beautiful")
 require("configuration.autostart")
 
 -- Default Applications
-terminal = "wezterm start --always-new-process"
+terminal = "wezterm"
 editor = "neovide"
 editor_cmd = editor
 browser = "firefox"
@@ -43,6 +43,34 @@ screen.connect_signal("request::wallpaper", function(s)
         }
     }
 end)
+
+--[[
+-- Load the module
+local awesome_wallpaper = require("module.awesome-wallpaper")
+
+-- Create the wallpaper instance and set your options
+local wallpaper = awesome_wallpaper {
+
+    -- These are all the options available and the default values
+    
+    -- The background color of the wallpaper
+    background_color = beautiful.xbackground,
+    -- The colors of the letters in order
+    letter_colors = {
+        beautiful.xcolor1, beautiful.xcolor2, beautiful.xcolor3, beautiful.xcolor4, beautiful.xcolor5, beautiful.xcolor6,
+        beautiful.xcolor7, beautiful.xcolor8, beautiful.xcolor8
+    },
+    -- The font size
+    font_size = 50,
+    -- If the letters should be colored in or not
+    solid_letters = true,
+    -- Letter spacing
+    spacing = 15
+}
+
+-- Draw the wallpaper
+wallpaper:draw_wallpaper()
+]]--
 
 -- Get Bling Config
 require("configuration.bling")
