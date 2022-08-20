@@ -77,25 +77,25 @@ in
 
     packages = with pkgs; [
       # Programs
+      appflowy
       arandr
       evince
       feh
       gimp
       glxinfo
-      maim
-      manix
-      matlab
-      matlab-mlint
+      go
       gnome.eog
       gnome.nautilus
       gnome-text-editor
       google-chrome
+      maim
+      manix
+      microsoft-edge
       mpc_cli
       neovim-nightly
       pandoc
       playerctl
       sqlite
-      tectonic
       trash-cli
       wezterm
       xdg-user-dirs
@@ -126,6 +126,7 @@ in
       shfmt
 
       # Extras
+      editorconfig-core-c
       fd
       gnuplot
       gnutls
@@ -145,10 +146,16 @@ in
       EDITOR = "${pkgs.neovim}/bin/nvim";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
+      XDG_DATA_HOME = "${config.home.homeDirectory}/.local/share";
     };
   };
 
   programs = {
+    alacritty = {
+      enable = true;
+      settings = import ./programs/alacritty.nix { inherit theme; };
+    };
+
     bat = {
       enable = true;
       config = {
@@ -166,7 +173,19 @@ in
     discocss = {
       enable = true;
       css = import ./programs/discord-css.nix { inherit theme; };
-      discordAlias = false;
+
+      discord = pkgs.master.discord.override {
+        nss = pkgs.nss_latest;
+        withOpenASAR = true;
+      };
+
+      discordAlias = true;
+    };
+
+    emacs = {
+      enable = true;
+      package = pkgs.emacsGit;
+      extraPackages = epkgs: [ epkgs.vterm ];
     };
 
     exa = {
@@ -179,9 +198,6 @@ in
 
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
-        stylus
-        honey
-        reddit-moderator-toolbox
         octotree
       ];
 
@@ -203,6 +219,8 @@ in
           extraConfig = ''
             user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
             user_pref("full-screen-api.ignore-widgets", true);
+            user_pref("media.ffmpeg.vaapi.enabled", true);
+            user_pref("media.rdd-vpx.enabled", true);
           '';
         };
       };
@@ -292,7 +310,7 @@ in
       enable = true;
 
       extraConfig = {
-        internalBorder = 40;
+        internalBorder = 50;
         "perl-ext-common" = "default,resize-font";
         "perl-lib" = "${pkgs.master.rxvt-unicode}/lib/urxvt/perl";
         scrollColor = "#${theme.colors.lbg}";
@@ -304,6 +322,32 @@ in
       scroll.bar = {
         enable = false;
         floating = true;
+      };
+    };
+
+    vscode = {
+      enable = true;
+      package = pkgs.master.vscodium;
+
+      extensions = with pkgs.vscode-extensions; [
+        golang.go
+        ms-python.python
+        ms-vscode-remote.remote-ssh
+      ];
+
+      userSettings = {
+        "breadcrumbs.enabled" = true;
+        "editor.fontFamily" = "BlexMono Nerd Font Mono";
+        "editor.fontSize" = 16;
+        "editor.fontLigatures" = true;
+        "workbench.fontAliasing" = "antialiased";
+        "files.trimTrailingWhitespace" = true;
+        "terminal.integrated.fontFamily" = "BlexMono Nerd Font Mono";
+        "window.titleBarStyle" = "custom";
+        "terminal.integrated.automationShell.linux" = "nix-shell";
+        "terminal.integrated.defaultProfile.linux" = "zsh";
+        "terminal.integrated.cursorBlinking" = true;
+        "terminal.integrated.enableBell" = false;
       };
     };
 
@@ -330,14 +374,14 @@ in
       };
 
       initExtra = ''
-        set -k
-        setopt auto_cd
-        export PATH="''${HOME}/.local/bin:''${HOME}/go/bin:''${HOME}/.npm/bin:''${HOME}/.cargo/bin:''${PATH}"
-        setopt NO_NOMATCH   # disable some globbing
+          set -k
+          setopt auto_cd
+          export PATH="''${HOME}/.local/bin:''${HOME}/go/bin:''${HOME}/.emacs.d/bin:''${HOME}/.npm/bin:''${HOME}/.cargo/bin:''${PATH}"
+          setopt NO_NOMATCH   # disable some globbing
 
-        function run() {
-          nix run nixpkgs#$@
-        }
+          function run() {
+            nix run nixpkgs#$@
+          }
 
         precmd() {
           printf '\033]0;%s\007' "$(dirs)"
@@ -345,26 +389,26 @@ in
 
         command_not_found_handler() {
           printf 'Command not found ->\033[32;05;16m %s\033[0m \n' "$0" >&2
-          return 127
+            return 127
         }
 
         export SUDO_PROMPT=$'Password for ->\033[32;05;16m %u\033[0m  '
 
-        export FZF_DEFAULT_OPTS='
-        --color fg:#${theme.colors.fg},bg:#${theme.colors.bg},hl:#${theme.colors.c4},fg+:#${theme.colors.c15},bg+:#${theme.colors.bg},hl+:#${theme.colors.c4},border:#${theme.colors.c8}
+          export FZF_DEFAULT_OPTS='
+          --color fg:#${theme.colors.fg},bg:#${theme.colors.bg},hl:#${theme.colors.c4},fg+:#${theme.colors.c15},bg+:#${theme.colors.bg},hl+:#${theme.colors.c4},border:#${theme.colors.c8}
         --color pointer:#${theme.colors.c9},info:#${theme.colors.lbg},spinner:#${theme.colors.lbg},header:#${theme.colors.lbg},prompt:#${theme.colors.c2},marker:#${theme.colors.c10}
         '
 
-        FZF_TAB_COMMAND=(
-          ${pkgs.fzf}/bin/fzf
-          --ansi
-          --expect='$continuous_trigger' # For continuous completion
-          --nth=2,3 --delimiter='\x00'  # Don't search prefix
-          --layout=reverse --height="''${FZF_TMUX_HEIGHT:=50%}"
-          --tiebreak=begin -m --bind=tab:down,btab:up,change:top,ctrl-space:toggle --cycle
-          '--query=$query'   # $query will be expanded to query string at runtime.
-          '--header-lines=$#headers' # $#headers will be expanded to lines of headers at runtime
-          )
+          FZF_TAB_COMMAND=(
+              ${pkgs.fzf}/bin/fzf
+              --ansi
+              --expect='$continuous_trigger' # For continuous completion
+              --nth=2,3 --delimiter='\x00'  # Don't search prefix
+              --layout=reverse --height="''${FZF_TMUX_HEIGHT:=50%}"
+              --tiebreak=begin -m --bind=tab:down,btab:up,change:top,ctrl-space:toggle --cycle
+              '--query=$query'   # $query will be expanded to query string at runtime.
+              '--header-lines=$#headers' # $#headers will be expanded to lines of headers at runtime
+              )
           zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
 
           zstyle ':completion:complete:*:options' sort false
@@ -436,6 +480,11 @@ in
     enable = true;
 
     configFile = {
+      "nvim/parser/c.so".source = "${pkgs.tree-sitter.builtGrammars.tree-sitter-c}/parser";
+      "nvim/parser/lua.so".source = "${pkgs.tree-sitter.builtGrammars.tree-sitter-lua}/parser";
+      "nvim/parser/rust.so".source = "${pkgs.tree-sitter.builtGrammars.tree-sitter-rust}/parser";
+      "nvim/parser/python.so".source = "${pkgs.tree-sitter.builtGrammars.tree-sitter-python}/parser";
+      "nvim/parser/nix.so".source = "${pkgs.tree-sitter.builtGrammars.tree-sitter-nix}/parser";
       "wezterm/wezterm.lua".text = import ./programs/wezterm.nix { inherit theme; };
     };
 

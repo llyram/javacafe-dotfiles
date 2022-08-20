@@ -4,10 +4,11 @@
   inputs = {
     # Flake inputs
     discocss.url = "github:mlvzk/discocss/flake";
+    emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
     naersk.url = "github:nix-community/naersk";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
-    nix-matlab.url = "gitlab:doronbehar/nix-matlab";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nur.url = "github:nix-community/NUR";
@@ -33,18 +34,10 @@
 
     # Default branch
     nixpkgs.follows = "nixpkgs-unstable";
-
-    discocss.inputs.nixpkgs.follows = "nixpkgs";
-    home.inputs.nixpkgs.follows = "nixpkgs";
-    naersk.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
-    nix-matlab.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    { self, home, nixpkgs, discocss, naersk, nixpkgs-f2k, nixos-wsl, ... }@inputs:
+    { self, home, nixpkgs, discocss, naersk, nixpkgs-f2k, nixos-hardware, nixos-wsl, ... }@inputs:
       with nixpkgs.lib;
       let
         config = {
@@ -92,16 +85,20 @@
                 unstable = import unstable { inherit config system; };
                 stable = import stable { inherit config system; };
               })
+            emacs.overlay
             nur.overlay
             neovim-nightly.overlay
-            nix-matlab.overlay
-            nixpkgs-f2k.overlay
+            nixpkgs-f2k.overlays.default
           ]
           # Overlays from ./overlays directory
           ++ (importNixFiles ./overlays);
       in
       {
         nixosConfigurations = {
+          framework = import ./hosts/framework {
+            inherit config nixos-hardware nixpkgs overlays discocss inputs;
+          };
+
           thonkpad = import ./hosts/thonkpad {
             inherit config nixpkgs overlays discocss inputs;
           };
@@ -121,6 +118,7 @@
           };
         };
 
+        framework = self.nixosConfigurations.framework.config.system.build.toplevel;
         thonkpad = self.nixosConfigurations.thonkpad.config.system.build.toplevel;
         nixbox = self.nixosConfigurations.nixbox.config.system.build.toplevel;
       };

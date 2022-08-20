@@ -10,21 +10,8 @@ in
 {
 
   boot = {
-    initrd = {
-      availableKernelModules = [ "battery" ];
-      kernelModules = [ "i915" ];
-    };
-
     kernelModules = [
-      "acpi_call"
       "iwlwifi"
-    ];
-
-    kernelParams = [
-      "acpi_backlight=native"
-      "psmouse.synaptics_intertouch=0"
-      "i915.enable_psr=0"
-      "i915.enable_guc=2"
     ];
 
     loader = {
@@ -51,12 +38,9 @@ in
       slop
       rxvt_unicode
     ];
-
-    variables = {
-      __GL_MaxFramesAllowed = "0";
-      VDPAU_DRIVER = lib.mkIf config.hardware.opengl.enable (lib.mkDefault "va_gl");
-    };
   };
+
+
 
   hardware = {
     bluetooth = {
@@ -79,30 +63,18 @@ in
         libvdpau-va-gl
       ];
     };
-
-    trackpoint = {
-      enable = true;
-      device = "TPPS/2 Elan TrackPoint";
-      emulateWheel = true;
-    };
   };
 
   imports = [
     ./hardware-configuration.nix
-    ./nvidia.nix
 
     # Shared configuration across all machines
     ../shared/configuration.nix
   ];
 
   networking = {
-    hostName = "thonkpad";
-
-    interfaces = {
-      enp0s31f6.useDHCP = true;
-      wlan0.useDHCP = true;
-    };
-
+    hostName = "framework";
+    interfaces.wlan0.useDHCP = true;
     networkmanager.enable = false;
     useDHCP = false;
     wireless.iwd.enable = true;
@@ -121,6 +93,7 @@ in
       enableSSHSupport = true;
     };
 
+    nm-applet.enable = true;
     seahorse.enable = true;
   };
 
@@ -133,8 +106,7 @@ in
       packages = with pkgs; [ dconf ];
     };
 
-    fprintd.enable = true;
-    fstrim.enable = true;
+    fwupd.enable = true;
     gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
     logind.lidSwitch = "suspend";
@@ -146,7 +118,7 @@ in
       vSync = true;
       shadow = true;
       shadowOffsets = [ (-40) (-40) ];
-      shadowOpacity = 0.50;
+      shadowOpacity = 0.40;
 
       shadowExclude = [
         "class_g = 'slop'"
@@ -172,9 +144,9 @@ in
         shadow-radius = 40;
         use-damage = true;
 
-        # corner-radius = 10;
+        corner-radius = 8;
         rounded-corners-exclude = [
-          "!window_type = 'normal'"
+          "!window_type = 'normal' && !window_type = 'dialog'"
         ];
 
         blur-method = "dual_kawase";
@@ -190,7 +162,7 @@ in
       };
     };
 
-    throttled.enable = true;
+    thermald.enable = true;
 
     tlp = {
       enable = true;
@@ -218,7 +190,7 @@ in
         };
       };
 
-      dpi = 216;
+      dpi = 120;
       exportConfiguration = true;
       layout = "us";
 
@@ -226,7 +198,6 @@ in
         enable = true;
 
         touchpad = {
-          accelSpeed = "0.4";
           naturalScrolling = true;
         };
       };
@@ -250,4 +221,5 @@ in
   };
 
   system.stateVersion = "22.05";
+  time.hardwareClockInLocalTime = true;
 }

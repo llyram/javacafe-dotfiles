@@ -3,7 +3,7 @@
 let theme = import ../../theme/theme.nix { };
 in
 {
-  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   console =
     let
@@ -12,7 +12,6 @@ in
     in
     {
       colors = normal ++ bright;
-      font = "Lat2-Terminus16";
       keyMap = "us";
     };
 
@@ -64,11 +63,12 @@ in
     fonts = lib.attrValues {
       inherit (pkgs)
         cantarell-fonts
+        emacs-all-the-icons-fonts
         liberation_ttf
         sarasa-gothic
         twemoji-color-font;
 
-      nerdfonts = pkgs.nerdfonts.override { fonts = [ "FiraCode" "IBMPlexMono" ]; };
+      nerdfonts = pkgs.nerdfonts.override { fonts = [ "IBMPlexMono" ]; };
     };
 
     fontconfig = {
